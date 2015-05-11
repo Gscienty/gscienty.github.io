@@ -26,9 +26,9 @@
 	</div>
 
 	<script type="text/javascript">
-		var face_words_index_json = $.get('/part-page/face-words-index.json');
-		var face_words_index_entity = eval(face_words_index_json.responseText);
-		alert(face_words_index_entity.index);
+		$.getJSON('/part-page/face-words-index.json',function (result) {
+			alert(result.identity);
+		});
 	</script>
 	<script type="text/javascript" src='/javascripts/bootstrap.min.js'></script>
 </body>
