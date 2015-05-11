@@ -28,9 +28,9 @@
 
 	<script type="text/javascript">
 		$(document).ready(function () {
-			$.get('/part-page/face-words-index.json',function (data) {
+			$.getJSON('/part-page/face-words-index.json',function (data) {
 				var index_var = eval(data);
-				alert(index_var.index);
+				alert(data);
 			})
 		});
 	</script>
