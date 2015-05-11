@@ -18,16 +18,12 @@
         <!--head end-->
         
         
-		<div id="face-words" class="jumbotron" style="background:#fff">
-	  		<p style="line-height:40px">心无旁骛，持之以恒。</p>
-	  		<br />
-	  		<p style="float:right">2015-03-10 21:11:47</p>
-		</div>	
+		<div id="face-words" class="jumbotron" style="background:#fff"></div>	
 	</div>
 
 	<script type="text/javascript">
 		$.getJSON('/part-page/face-words-index.json',function (result) {
-			alert(result.identity);
+			$("#face-words").html('<p style="line-height:40px">'+result.words+'</p><br/><p style="float:right">'+result.signtime+'</p>')
 		});
 	</script>
 	<script type="text/javascript" src='/javascripts/bootstrap.min.js'></script>
