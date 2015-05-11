@@ -12,8 +12,7 @@
         <div class="page-header">
           <h1>Gscienty Blog <small>Art apprentice.</small></h1>
         </div>
-        <ol class="breadcrumb" style="background:#fff">
-            <li><a href="/">封面</a></li>
+        <ol id="nav-list" class="breadcrumb" style="background:#fff">
         </ol>
         <!--head end-->
         
@@ -22,7 +21,13 @@
 	</div>
 
 	<script type="text/javascript">
-		$.getJSON('/part-page/face-words-index.json',function (result) {
+		$.getJSON('/part-page/nav.json',function (result) {
+			$.each(result,function (key, value) {
+				$("#nav-list").append('<li><a href="'+value.nav_url+"'><h3>"+value.nav_label+"<small>"+value.nav_deputy+"</small></h3></a></li>");
+			});
+		});
+
+		$.getJSON('/part-page/face-words.json',function (result) {
 			$("#face-words").html('<p style="line-height:40px">'+result.words+'</p><br/><p style="float:right">'+result.signtime+'</p>')
 		});
 	</script>

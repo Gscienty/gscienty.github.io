@@ -1,0 +1,12 @@
+[
+	{
+		"nav_label":"封面",
+		"nav_deputy":"face",
+		"nav_url":"/index.html"
+	},
+	{
+		"nav_label":"首页",
+		"nav_deputy":"index",
+		"nav_url":"/home/index.html"
+	}
+]
