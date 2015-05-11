@@ -27,11 +27,9 @@
 	</div>
 
 	<script type="text/javascript">
-		$(document).ready(function () {
-			$.getJSON('/part-page/face-words-index.json',function (data) {
-				var index_var = eval(data);
-				alert(data);
-			})
+		$.getJSON('/part-page/face-words-index.json',function (data) {
+			var index_var = eval(data);
+			alert(data);
 		});
 	</script>
 </body>
