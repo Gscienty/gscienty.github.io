@@ -19,11 +19,20 @@
         <!--head end-->
         
         
-		<div class="jumbotron" style="background:#fff">
+		<div id="face-words" class="jumbotron" style="background:#fff">
 	  		<p style="line-height:40px">心无旁骛，持之以恒。</p>
 	  		<br />
 	  		<p style="float:right">2015-03-10 21:11:47</p>
 		</div>	
 	</div>
+
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$.get('/part-page/face-words-index.json',function (data) {
+				var index_var = eval(data);
+				alert(index_var.index);
+			})
+		});
+	</script>
 </body>
 </html>
