@@ -3,7 +3,8 @@
 <head>
 	<meta charset='utf-8' />
 	<title>Gscienty</title>
-	<link rel="stylesheet" type="text/css" href="/style/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/style/bootstrap.min.css"/>
+	<link rel="stylesheet" type="text/css" href="/style/default.css"/>
 </head>
 <body>
 	<script type="text/javascript" src='/javascripts/jquery-1.11.2.min.js'></script>
@@ -23,7 +24,7 @@
 	<script type="text/javascript">
 		$.getJSON('/part-page/nav.json',function (result) {
 			$.each(result,function (key, value) {
-				$("#nav-ol").append('<li style="margin-left:10px"><a href="'+value.nav_url+'"><h2>'+value.nav_label+'<small>'+value.nav_deputy+'</small></h2></a></li>')
+				$("#nav-ol").append('<li><a href="'+value.nav_url+'"><h3>'+value.nav_label+'<small>'+value.nav_deputy+'</small></h3></a></li>')
 			});
 		});
 
