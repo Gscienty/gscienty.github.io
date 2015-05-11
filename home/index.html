@@ -12,7 +12,7 @@
         <div class="page-header">
           <h1>Gscienty Blog <small>Art apprentice.</small></h1>
         </div>
-        <ol id="nav-list" class="breadcrumb" style="background:#fff">
+        <ol id="nav-ol" class="breadcrumb" style="background:#fff">
         </ol>
         <!--head end-->
         
@@ -23,7 +23,7 @@
 	<script type="text/javascript">
 		$.getJSON('/part-page/nav.json',function (result) {
 			$.each(result,function (key, value) {
-				$("#nav-list").append('<li><a href="'+value.nav_url+'"><h3>'+value.nav_label+'<small>'+value.nav_deputy+'</small></h3></a></li>');
+				$("#nav-ol").append('<li><a href="'+value.nav_url+'"><h2>'+value.nav_label+'<small>'+value.nav_deputy+'</small></h2></a></li>')
 			});
 		});
 
