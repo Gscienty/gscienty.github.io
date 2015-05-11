@@ -23,7 +23,7 @@
 	<script type="text/javascript">
 		$.getJSON('/part-page/nav.json',function (result) {
 			$.each(result,function (key, value) {
-				$("#nav-ol").append('<li><a href="'+value.nav_url+'"><h2>'+value.nav_label+'<small>'+value.nav_deputy+'</small></h2></a></li>')
+				$("#nav-ol").append('<li style="margin-left:10px"><a href="'+value.nav_url+'"><h2>'+value.nav_label+'<small>'+value.nav_deputy+'</small></h2></a></li>')
 			});
 		});
 
