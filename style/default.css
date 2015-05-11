@@ -5,3 +5,7 @@
 .breadcrumb a{
 	text-decoration: none;
 }
+
+.breadcrumb h4{
+	font-size: 24px;
+}
