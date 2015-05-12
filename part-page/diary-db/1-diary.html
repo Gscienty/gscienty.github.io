@@ -103,6 +103,7 @@ function moveSnake(){
 
 function drawNet(){
 
+	var context = canvas.getContext('2d');
 	context.beginPath();
 	context.moveTo(0 * unitWidth, 0);
 	context.lineTo(0 * unitWidth, canvasHeight);
