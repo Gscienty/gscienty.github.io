@@ -30,6 +30,8 @@
         <ol id="nav-ol" class="breadcrumb" style="background:#fff">
         </ol>
         <div class="jumbotron" style="background:#fff">
+            <h1style="text-align:center;"><span id="title"></span><small id="time"></small></h1>
+            <hr />
         </div>
     </div>
 
@@ -39,7 +41,17 @@
                 $("#nav-ol").append('<li><a href="'+value.nav_url+'"><h4>'+value.nav_label+'<small>'+value.nav_deputy+'</small></h4></a></li>')
             });
         });
+
+
         var params = get_query_params();
+        $.getJSON("/part-page/diary-list.json",function (result) {
+            $.each(result, function (key, value) {
+                if(value.index == params['index']){
+                    $("#title").html(value.title);
+                    $("#time").html(value.time);
+                }
+            });
+        });
     </script>
     <script type="text/javascript" src='/javascripts/bootstrap.min.js'></script>
 </body>
