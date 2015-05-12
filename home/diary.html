@@ -6,6 +6,7 @@
     <title>Gscienty</title>
     <link rel="stylesheet" type="text/css" href="/style/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="/style/default.css"/>
+    <script type="text/javascript" href="/javascripts/default.js"></script>
     <style type="text/css">
         #diary-list a{
             color: #663366;
@@ -25,7 +26,12 @@
                 <thead>
                     <tr>
                         <td>#</td>
-                        <td colspan='2'></td>
+                        <td colspan='2'>
+                              <div class="form-group">
+                                <label for="exampleInputEmail1">Search</label>
+                                <input type="text" class="form-control" placeholder="Part title">
+                              </div>
+                        </td>
                     </tr>
                 </thead>
                 <tbody id='diary-list'>
