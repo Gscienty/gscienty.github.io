@@ -1,4 +1,3 @@
-
 function get_query_params () {
     var query = window.location.href.split('?');
     var params = new Array();
