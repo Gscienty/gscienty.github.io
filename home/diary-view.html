@@ -32,6 +32,7 @@
         <div class="jumbotron" style="background:#fff">
             <h2 style="text-align:center;"><span style="font-family:'Microsoft Yahei'" id="title"></span>&nbsp;&nbsp;<small id="time"></small></h2>
             <hr />
+            <div id="article-content"></div>
         </div>
     </div>
 
@@ -51,6 +52,10 @@
                     $("#time").html(value.time);
                 }
             });
+        });
+        
+        $.get("/part-page/diary-db/"+params['index']+"-diary.html",function(htmlText){
+            $("#article-content").html(htmlText);
         });
     </script>
     <script type="text/javascript" src='/javascripts/bootstrap.min.js'></script>
