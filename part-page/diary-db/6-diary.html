@@ -1,0 +1,14 @@
+
+<p>有些对象只需要一个，如果制造出多个实例就会导致许多问题。</p>
+<p>在任何时候，利用单例模式制造出来的，都只有一个对象。避免其他类再自行产生实例，要想取得单例，通过单例类是唯一的途径。</p>
+<p><pre name="code" class="csharp">    class Singleton
+    {
+        private static Singleton _instance;
+        public static Singleton Instance { get { return _instance; } }
+        static Singleton()
+        {
+            _instance = new Singleton();
+        }
+        private Singleton() { }
+    }</pre><br>
+<br>
