@@ -55,10 +55,11 @@
             });
         });
 
+        var is_search = search_title['q'];
+        
         $.getJSON("/part-page/diary-list.json",function (result) {
         	$("#diary-list").html('');
             var search_title = get_query_params();
-            var is_search = search_title['q'];
             
             for(var i=result.length-1; i>=0; i--){
                 if(is_search != undefined && result[i].title.indexOf(UrlDecode(is_search)) != -1){
