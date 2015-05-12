@@ -29,7 +29,7 @@
                     </tr>
                 </thead>
                 <tbody id='diary-list'>
-					<tr><td colspan='3' style="font-family:'Impact';text-align:center">Loading...</td></tr>
+			<tr><td colspan='3' style="font-family:'Impact';text-align:center">Loading...</td></tr>
                 </tbody>
             </table>
         </div>   
@@ -47,9 +47,11 @@
 
         $.getJSON("/part-page/diary-list.json",function (result) {
         	$("#diary-list").html('');
-            $.each(result, function (key, value) {
-                $("#diary-list").append('<tr><td>'+value.index+'</td><td><a href="/home/diary-view.html?index='+value.index+'">'+value.title+'</a></td><td>'+value.time+'</td></tr>');
-            });
+        	for(var i=result.length-1; i>=0; i--){
+        		$("#diary-list").append('<tr><td>'+result[i].index+'</td><td><a href="/home/diary-view.html?index='+result[i].index+'">'+result[i].title+'</a></td><td>'+result[i].time+'</td></tr>');
+        	}
+            
+            
         });
     </script>
     <script type="text/javascript" src='/javascripts/bootstrap.min.js'></script>
