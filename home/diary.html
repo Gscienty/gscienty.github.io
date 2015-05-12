@@ -57,9 +57,13 @@
 
         $.getJSON("/part-page/diary-list.json",function (result) {
         	$("#diary-list").html('');
-        	for(var i=result.length-1; i>=0; i--){
-        		$("#diary-list").append('<tr><td>'+result[i].index+'</td><td><a href="/home/diary-view.html?index='+result[i].index+'">'+result[i].title+'</a></td><td>'+result[i].time+'</td></tr>');
-        	}
+            var search_title = get_query_params();
+            var is_search = search_title['q'];
+            if(is_search == undefined){
+                for(var i=result.length-1; i>=0; i--){
+                    $("#diary-list").append('<tr><td>'+result[i].index+'</td><td><a href="/home/diary-view.html?index='+result[i].index+'">'+result[i].title+'</a></td><td>'+result[i].time+'</td></tr>');
+                }
+            }
             
             
         });
