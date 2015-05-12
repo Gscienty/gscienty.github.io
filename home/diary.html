@@ -38,7 +38,7 @@
 
         $.getJSON("/part-page/diary-list.json",function (result) {
             $.each(result, function (key, value) {
-                $("#diary-list").append('<tr><td>'+value.index+'</td><td>'+value.title+'</td><td>'+value.title+'</td></tr>');
+                $("#diary-list").append('<tr><td>'+value.index+'</td><td>'+value.title+'</td><td>'+value.time+'</td></tr>');
             });
         });
     </script>
