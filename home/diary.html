@@ -61,7 +61,7 @@
             var is_search = search_title['q'];
             
             for(var i=result.length-1; i>=0; i--){
-                if(is_search != undefined && result[i].title.indexOf(HtmlDecode(is_search)) != -1){
+                if(is_search != undefined && result[i].title.indexOf(URLDecode(is_search)) != -1){
                     continue;
                 }
                 $("#diary-list").append('<tr><td>'+result[i].index+'</td><td><a href="/home/diary-view.html?index='+result[i].index+'">'+result[i].title+'</a></td><td>'+result[i].time+'</td></tr>');
