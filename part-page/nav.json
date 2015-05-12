@@ -13,5 +13,10 @@
 		"nav_label":"日志",
 		"nav_deputy":"diary",
 		"nav_url":"/home/diary.html"
+	},
+	{
+		"nav_label":"留言",
+		"nav_deputy":"issues",
+		"nav_url":"https://github.com/Gscienty/gscienty.github.io/issues/new"
 	}
 ]
