@@ -20,21 +20,34 @@
             return params;
         }
     </script>
+    <style>
+    	#article-content p{
+    		font-size:18px;
+    		line-height:24px;
+    		font-family:'Microsoft Yahei';
+    	}
+    </style>
 </head>
 <body>
     <script type="text/javascript" src='/javascripts/jquery-1.11.2.min.js'></script>
     <div class="container">
         <div class="page-header">
-          <h1>Gscienty Blog <small>Art apprentice.</small></h1>
+          <h1 style="font-family:'Impact'">Gscienty Blog <small>Art apprentice.</small></h1>
         </div>
         <ol id="nav-ol" class="breadcrumb" style="background:#fff">
         </ol>
         <div class="jumbotron" style="background:#fff">
-            <h1style="text-align:center;"><span id="title"></span><small id="time"></small></h1>
+            <h2 style="text-align:center;"><span style="font-family:'Microsoft Yahei'" id="title"></span>&nbsp;&nbsp;<small id="time" style="font-size:12px"></small></h2>
             <hr />
+            <div id="article-content">
+            	<p style="text-align:center;font-family:'Impact'">Loading...</p>
+            </div>
         </div>
     </div>
 
+	<div id="footer">
+		<p style="text-align:center">This is Gscienty. From CHINA.</p>
+	</div>
     <script type="text/javascript">
         $.getJSON('/part-page/nav.json',function (result) {
             $.each(result,function (key, value) {
@@ -51,6 +64,10 @@
                     $("#time").html(value.time);
                 }
             });
+        });
+        
+        $.get("/part-page/diary-db/"+params['index']+"-diary.html",function(htmlText){
+            $("#article-content").html(htmlText);
         });
     </script>
     <script type="text/javascript" src='/javascripts/bootstrap.min.js'></script>

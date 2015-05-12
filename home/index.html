@@ -11,13 +11,15 @@
 	<script type="text/javascript" src='/javascripts/jquery-1.11.2.min.js'></script>
 	<div class="container">
         <div class="page-header">
-          <h1>Gscienty Blog <small>Art apprentice.</small></h1>
+          <h1 style="font-family:'Impact'">Gscienty Blog <small>Art apprentice.</small></h1>
         </div>
         <ol id="nav-ol" class="breadcrumb" style="background:#fff">
         </ol>
-		<div id="face-words" class="jumbotron" style="background:#fff"></div>	
+		<div id="face-words" class="jumbotron" style="background:#fff;min-height:200px"></div>	
 	</div>
-
+	<div id="footer">
+		<p style="text-align:center">This is Gscienty. From CHINA.</p>
+	</div>
 	<script type="text/javascript">
 		$.getJSON('/part-page/nav.json',function (result) {
 			$.each(result,function (key, value) {
