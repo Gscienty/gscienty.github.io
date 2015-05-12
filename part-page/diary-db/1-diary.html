@@ -4,8 +4,8 @@
 	<title>贪吃蛇</title>
 </head>
 <body>
-	<div style="margin-left:auto;margin-right:auto">
-		<canvas id="scen" width='400' height='400'></canvas>
+	<div style="text-align:center">
+		<canvas id="scen" width='300' height='300'></canvas>
 	</div>
 
 <script>
@@ -27,8 +27,8 @@ function Class_Dim(cx, cy){
 };
 var gameRunning = true;
 var canvas = document.getElementById('scen');
-var sceneWidth = 10;
-var sceneHeight = 10;
+var sceneWidth = 20;
+var sceneHeight = 20;
 var canvasWidth = canvas.width;
 var canvasHeight = canvas.height;
 var unitWidth = canvasWidth / sceneWidth;
