@@ -59,12 +59,11 @@
         	$("#diary-list").html('');
             var search_title = get_query_params();
             var is_search = search_title['q'];
+
+            alert(is_search);
             
             for(var i=result.length-1; i>=0; i--){
                 if(is_search != undefined){
-                    if(result.title.indexOf(is_search) == -1){
-                        continue;
-                    }
                 }
                 $("#diary-list").append('<tr><td>'+result[i].index+'</td><td><a href="/home/diary-view.html?index='+result[i].index+'">'+result[i].title+'</a></td><td>'+result[i].time+'</td></tr>');
 
