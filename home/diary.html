@@ -54,17 +54,20 @@
                 $("#nav-ol").append('<li><a href="'+value.nav_url+'"><h4>'+value.nav_label+'<small>'+value.nav_deputy+'</small></h4></a></li>')
             });
         });
-        
+
         var is_search = get_query_params()['q'];
+        if(is_search == undefined) is_search = "";
 
         $.getJSON("/part-page/diary-list.json",function (result) {
         	$("#diary-list").html('');
             
             for(var i=result.length-1; i>=0; i--){
-                if(is_search != undefined && result[i].title.indexOf(UrlDecode(is_search)) != -1){
+                if(is_search != "" && result[i].title.indexOf(is_search) != -1){
                     continue;
                 }
-                $("#diary-list").append('<tr><td>'+result[i].index+'</td><td><a href="/home/diary-view.html?index='+result[i].index+'">'+result[i].title+'</a></td><td>'+result[i].time+'</td></tr>');
+                else{
+                    $("#diary-list").append('<tr><td>'+result[i].index+'</td><td><a href="/home/diary-view.html?index='+result[i].index+'">'+result[i].title+'</a></td><td>'+result[i].time+'</td></tr>');
+                }
 
             }
         });
