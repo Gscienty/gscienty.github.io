@@ -1,0 +1,51 @@
+
+<p>实在觉得搜狗输入法流氓，于是就在刚刚卸载掉了。因为搜狗输入法“惯”出的懒散病也该得到治疗了。言归正传--“装饰者模式”</p>
+<p><br>
+</p>
+<p>装饰者模式实际上就是将“父对象”的职责动态地加在“子对象”之上，“子对象”可以根据需要，在本有职责的基础上添加其他的业务。换句话说，若要拓展功能，装饰者设计模式比继承提供了更加富有弹性的解决方案。</p>
+<p>它的设计原则一是尽可能多地使用组合，而尽可能少的使用继承，因为继承是在编译时决定的，是一种”静态“的功能拓展，而应用组合对功能进行拓展，则更富有灵活性。二是&#20284;的类对拓展开放而对修改关闭。</p>
+<p>装饰者模式要求，装饰者与被装饰者需要有同一超类，其目的是为了让装饰者与被装饰者对象的类型能够匹配，而绝非是继承其行为。装饰者模式将保持接口，并增加对象的职责。</p>
+<p><br>
+</p>
+<p>例子：</p>
+<p>首先是定义一个接口，即装饰者与被装饰者都都需要继承的一个”超类“，是为了让装饰者与被装饰者对象的类型能够匹配。</p>
+<p><pre name="code" class="csharp">&#160;&#160;&#160; interface Component
+&#160;&#160;&#160; {
+&#160;&#160;&#160;&#160;&#160;&#160;&#160; void Operation();
+&#160;&#160;&#160; }
+</pre><br>
+然后是被装饰者，充当”父对象“这个角色，定义了最基本的功能职责。</p>
+<p><pre name="code" class="csharp">    class Father : Component
+    {
+        public void Operation()
+        {
+            Console.WriteLine(&quot;Base operation.&quot;);
+        }
+    }</pre><br>
+接下来定义装饰者，充当”子对象“的这个角色，是对”父对象“定义的基本功能职责的一次扩充，当然，你可以再定义一个”孙子对象“。</p>
+<p><pre name="code" class="csharp">    class Child : Component
+    {
+        private Component _father;
+
+        public Child(Component father)
+        {
+            _father = father;
+        }
+
+        public void Operation()
+        {
+            Console.WriteLine(&quot;Before operation.&quot;);
+            _father.Operation();
+            Console.WriteLine(&quot;After operation.&quot;);
+        }
+    }</pre><br>
+我们对于装饰者模式评析一下</p>
+<p><br>
+</p>
+<p>继承和装饰者模式都是一种对基本功能的拓展，装饰者模式比继承更加的灵活。</p>
+<p>可以根据不同的情况将功能进行组合，来达到意想不到的效果。</p>
+<p>但装饰者模式会造成代码可读性降低。也由于所有类都只能实现接口的定义，所以在定制方面有一定的局限性。<br>
+</p>
+<p><br>
+</p>
+</div>
