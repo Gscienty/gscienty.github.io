@@ -10,6 +10,12 @@ function get_query_params () {
     }
     return params;
 }
+function str2asc(strstr){ 
+return ("0"+strstr.charCodeAt(0).toString(16)).slice(-2); 
+} 
+function asc2str(ascasc){ 
+return String.fromCharCode(ascasc); 
+} 
 function UrlEncode(str){
     var ret="";
     var strSpecial="!\"#$%&'()*+,/:;<=>?[]^`{|}~%";
