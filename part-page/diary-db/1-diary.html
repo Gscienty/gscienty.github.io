@@ -105,14 +105,15 @@ function drawNet(){
 
 	var context = canvas.getContext('2d');
 	context.beginPath();
-	context.moveTo(0 * unitWidth, 0);
-	context.lineTo(0 * unitWidth, canvasHeight);
+	context.moveTo(0, 0);
+	context.lineTo(0, canvasHeight);
 	context.lineWidth = 1.0;
 	context.strokeStyle = '#9988CC';
 	context.stroke();
+	
 	context.beginPath();
-	context.moveTo(sceneWidth * unitWidth, 0);
-	context.lineTo(sceneWidth * unitWidth, canvasHeight);
+	context.moveTo(canvasWidth, 0);
+	context.lineTo(canvasWidth, canvasHeight);
 	context.lineWidth = 1.0;
 	context.strokeStyle = '#9988CC';
 	context.stroke();
@@ -137,14 +138,14 @@ function drawNet(){
 	};
 	*/
 	context.beginPath();
-	context.moveTo(0, 0 * unitHeight);
-	context.lineTo(canvasWidth, sceneHeight * unitHeight);
+	context.moveTo(0, 0);
+	context.lineTo(canvasWidth, 0);
 	context.lineWidth = 1.0;
 	context.strokeStyle = '#9988CC';
 	context.stroke();
 	context.beginPath();
-	context.moveTo(0, 0 * unitHeight);
-	context.lineTo(canvasWidth, sceneHeight * unitHeight);
+	context.moveTo(0, canvasHeight);
+	context.lineTo(canvasWidth, canvasHeight);
 	context.lineWidth = 1.0;
 	context.strokeStyle = '#9988CC';
 	context.stroke();
