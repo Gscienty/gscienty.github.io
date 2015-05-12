@@ -102,6 +102,19 @@ function moveSnake(){
 };
 
 function drawNet(){
+
+	context.beginPath();
+	context.moveTo(0 * unitWidth, 0);
+	context.lineTo(0 * unitWidth, canvasHeight);
+	context.lineWidth = 1.0;
+	context.strokeStyle = '#9988CC';
+	context.stroke();
+	context.beginPath();
+	context.moveTo(sceneWidth * unitWidth, 0);
+	context.lineTo(sceneWidth * unitWidth, canvasHeight);
+	context.lineWidth = 1.0;
+	context.strokeStyle = '#9988CC';
+	context.stroke();
 	/*
 	var context = canvas.getContext('2d');
 	for(var loopPointer = 0; loopPointer <= sceneWidth; loopPointer++)
@@ -122,6 +135,18 @@ function drawNet(){
 		context.stroke();
 	};
 	*/
+	context.beginPath();
+	context.moveTo(0, 0 * unitHeight);
+	context.lineTo(canvasWidth, sceneHeight * unitHeight);
+	context.lineWidth = 1.0;
+	context.strokeStyle = '#9988CC';
+	context.stroke();
+	context.beginPath();
+	context.moveTo(0, 0 * unitHeight);
+	context.lineTo(canvasWidth, sceneHeight * unitHeight);
+	context.lineWidth = 1.0;
+	context.strokeStyle = '#9988CC';
+	context.stroke();
 };
 
 function run(){
