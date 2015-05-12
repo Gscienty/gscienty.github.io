@@ -9,15 +9,11 @@
 <body>
 	<script type="text/javascript" src='/javascripts/jquery-1.11.2.min.js'></script>
 	<div class="container">
-        <!-- head begin -->
         <div class="page-header">
           <h1>Gscienty Blog <small>Art apprentice.</small></h1>
         </div>
         <ol id="nav-ol" class="breadcrumb" style="background:#fff">
         </ol>
-        <!--head end-->
-        
-        
 		<div id="face-words" class="jumbotron" style="background:#fff"></div>	
 	</div>
 
@@ -27,7 +23,6 @@
 				$("#nav-ol").append('<li><a href="'+value.nav_url+'"><h4>'+value.nav_label+'<small>'+value.nav_deputy+'</small></h4></a></li>')
 			});
 		});
-
 		$.getJSON('/part-page/face-words.json',function (result) {
 			$("#face-words").html('<p style="line-height:40px">'+result.words+'</p><br/><p style="float:right">'+result.signtime+'</p>')
 		});

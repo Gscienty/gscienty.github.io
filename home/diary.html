@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title>Gscienty</title>
+    <link rel="stylesheet" type="text/css" href="/style/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/default.css"/>
+</head>
+<body>
+    <script type="text/javascript" src='/javascripts/jquery-1.11.2.min.js'></script>
+    <div class="container">
+        <div class="page-header">
+          <h1>Gscienty Blog <small>Art apprentice.</small></h1>
+        </div>
+        <ol id="nav-ol" class="breadcrumb" style="background:#fff">
+        </ol>
+        <div class="jumbotron" style="background:#fff">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <td>#</td>
+                        <td colspan='2'></td>
+                    </tr>
+                </thead>
+                <tbody id='diary-list'>
+
+                </tbody>
+            </table>
+        </div>   
+    </div>
+
+    <script type="text/javascript">
+        $.getJSON('/part-page/nav.json',function (result) {
+            $.each(result,function (key, value) {
+                $("#nav-ol").append('<li><a href="'+value.nav_url+'"><h4>'+value.nav_label+'<small>'+value.nav_deputy+'</small></h4></a></li>')
+            });
+        });
+
+        $.getJSON("/part-page/diary-list.json",function (result) {
+            $.each(result, function (key, value) {
+                $("#diary-list").append('<tr><td>'+value.index+'</td><td>'+value.title+'</td><td>'+value.title+'</td></tr>');
+            });
+        });
+    </script>
+    <script type="text/javascript" src='/javascripts/bootstrap.min.js'></script>
+</body>
+</html>

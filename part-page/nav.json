@@ -8,5 +8,10 @@
 		"nav_label":"首页",
 		"nav_deputy":"index",
 		"nav_url":"/home/index.html"
+	},
+	{
+		"nav_label":"日志",
+		"nav_deputy":"diary",
+		"nav_url":"/home/diary.html"
 	}
 ]
