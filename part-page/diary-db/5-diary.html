@@ -1,0 +1,61 @@
+<p>除了使用new关键字以外，还有更多制造对象的方法。new意味着在实例化一个具体的类，所以对象的方法是准确的实现，而非抽象的方法定义。因此这样一来代码将会缺乏弹性。</p>
+<p>我们针对接口编程，可以隔离掉以后系统中可能发生的一大堆改变，如果代码针对接口来写，那么对于一个方法的实现将会是多种多样的。当代码使用大量具体类时，一旦加入新的类，那么就需要修改大量的代码。也就是说代码并非对”修改关闭“。想用新的具体类型来扩展代码，就必须要重新打开它。</p>
+<p>工厂处理创建对象的细节。由于实际运行中不同的对象会对类有多种多样的要求，将创建对象包装进一个类中，当以后实现改变时，只需要改变这个类即可。</p>
+<p>简单工厂并不是一个设计模式，反而比较像是一种编程习惯。</p>
+<p>首先定义一个公共接口</p>
+<p><pre name="code" class="csharp">    interface Component
+    {
+        void Operation();
+    }</pre><br>
+其次是两种实现</p>
+<p><pre name="code" class="csharp">    class Obj1 : Component
+    {
+        public Obj1()
+        {
+            Console.WriteLine(&quot;build Obj1.&quot;);
+        }
+        public void Operation()
+        {
+            Console.WriteLine(&quot;Operation 1&quot;);
+        }
+    }
+
+    class Obj2 : Component
+    {
+        public Obj2()
+        {
+            Console.WriteLine(&quot;build Obj2&quot;);
+        }
+        public void Operation()
+        {
+            Console.WriteLine(&quot;Operation 2&quot;);
+        }
+    }</pre><br>
+最后是简单工厂</p>
+<p><pre name="code" class="csharp">    class Fatory
+    {
+        public Component BuildObj(Int32 i)
+        {
+            if (i == 1)
+            {
+                return new Obj1();
+            }
+            else
+            {
+                return new Obj2();
+            }
+        }
+    }</pre><br>
+工厂方法模式定义了一个创建对象的接口，但由于子类决定要实例化的类是哪一个。工厂方法让类把实例化推迟到子类。</p>
+<p>代码里减少对具体类的依赖是好事，“依赖倒置原则”：要依赖抽象，不要依赖具体类。</p>
+<p>1）变量不可以持有具体类的引用。（可以改用工厂来避开这样的做法）</p>
+<p>2）不要让类派生自具体类。</p>
+<p>3）不要覆盖基类中已经实现的方法。（如果覆盖基类已经实现的方法，说明该基类不是一个真正适合被继承的抽象。基类中已经实现的方法，应该由所有的子类共享。）</p>
+<p><br>
+</p>
+<p>抽象工厂模式提供了一个接口，用于创建相关或者依赖对象的家族，而不需要明确指明具体类。</p>
+<p>抽象工厂允许客户使用抽象的接口来创建一组相关的产品，而不需要知道实际产出的产品是什么。<br>
+</p>
+<p><br>
+</p>
+</div>
