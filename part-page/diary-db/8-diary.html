@@ -1,0 +1,28 @@
+<p>
+	<b>1.通过文件的扩展名来判断</b>
+	<br />
+	这是一种最鸡肋的方法。
+</p>
+<p>
+	<b>2.通过C#自身提供的方法进行判断</b>
+	<br />
+<code>
+bool isJPG = false;
+System.Drawing.Image img = System.Drawing.Image.FromFile(filesName);
+if ( img.RawFormat.Equals(System.Drawing.Imaging.ImageFormat.Jpeg) )
+{
+	isJPG = true;
+}
+</code>
+</p>
+<p>
+	<b>3.通过读取文件内容来判断</b>
+	<br />
+	<b>JPEG格式：</b>以0xFFD8FF开头。
+	<br />
+	<b>BMP格式：</b>以0x424D开头。
+	<br />
+	<b>PNG格式：</b>以0x89504E47开头。
+	<br />
+	<b>GIF格式：</b>以0x47494638开头。
+</p>
