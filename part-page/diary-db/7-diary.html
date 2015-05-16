@@ -33,24 +33,24 @@
     OpenGL中的坐标位置可以有二维、三维或四维。
 </p>
 <p>
-    <pre>
-        glBegin(GL_POINTS);
-        glVertex2i(50, 100);
-        glVertex2i(75, 150);
-        glVertex2i(100, 200);
-        glEnd();
-    </pre>
+<pre>
+glBegin(GL_POINTS);
+glVertex2i(50, 100);
+glVertex2i(75, 150);
+glVertex2i(100, 200);
+glEnd();
+</pre>
     换一种方法，可以将前面这些点的坐标值以矩阵形式描述：
-    <pre>
-        int point1[] = {50, 100};
-        int point2[] = {75, 150};
-        int point3[] = {100, 200};
-        glBegin(GL_POINTS);
-        glVertex2iv(point1);
-        glVertex2iv(point2);
-        glVertex2iv(point3);
-        glEnd();
-    </pre>
+<pre>
+int point1[] = {50, 100};
+int point2[] = {75, 150};
+int point3[] = {100, 200};
+glBegin(GL_POINTS);
+glVertex2iv(point1);
+glVertex2iv(point2);
+glVertex2iv(point3);
+glEnd();
+</pre>
     我们可以在C++过程中使用OpenGL画点函数来实现setPixel命令。
 </p>
 <h2>OpenGL画线函数</h2>
@@ -60,4 +60,44 @@
     使用图元常量GL_LINE_STRIP 可以获得折线(polyline)。 此时，显示从第一个端点到最后一个断电之间一组首尾相连的线段。
     <br />
     使用图元常量GL_LINE_LOOP 可以在折线基础上再增加一条直线段，因此，折线序列中最后一个端点与第一个端点相连接。
+</p>
+<h2>画线算法</h2>
+<h3>DDA算法</h3>
+<p>
+    数学微分分析仪方法是一种弦断扫描转换算法，使用等式y[k+1] = y[k] + m 和等式x[k+1] = x[k] + 1/m 计算dx或dy。 在一个坐标轴上以单位间隔对线段取样，从而确定另一个坐标周上最靠近线路经的对应整数值。
+<pre>
+#include <stdlib.h>
+#include <math.h>
+
+inline int round(const float a) {return int (a + 0.5); }
+
+void lineDDA(int x0, int y0, int xEnd, int yEnd){
+    int dx = xEnd - x0, dy = yEnd - y0, steps, k;
+    float xIncrement, yIncrement, x = x0, y = y0;
+
+    if(fabs(dx) > fabs(dy)){
+        steps = fabs(dx);
+    }
+    else{
+        steps = fabs(dy);
+    }
+
+    xIncrement = float(dx) / float(steps);
+    yIncrement = float(dy) / float(steps);
+
+    setPixel(round(x), round(y));
+    for(k = 0; i < steps; k++){
+        x += xIncrement;
+        y += yIncrement;
+        setPixel(round(x), round(y));
+    }
+}
+</pre>
+</p>
+
+<h2>OpenGL曲线函数</h2>
+
+<p>
+    生成圆和椭圆等基本曲线的函数并未作为图元功能包含在OpenGL核心库中。
+    但该库包含了显示Bezier样条的功能。 该曲线是由一组离散点定义的多项式。
 </p>
