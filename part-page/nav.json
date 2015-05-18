@@ -15,6 +15,11 @@
 		"nav_url":"/home/diary.html"
 	},
 	{
+		"nav_label":"智慧山师开发日志",
+		"nav_deputy":"sdnu-doc",
+		"nav_url":"/home/sdnu-doc.html"
+	},
+	{
 		"nav_label":"留言",
 		"nav_deputy":"issues",
 		"nav_url":"https://github.com/Gscienty/gscienty.github.io/issues/new"
