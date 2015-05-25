@@ -15,9 +15,9 @@
 		"nav_url":"/home/diary.html"
 	},
 	{
-		"nav_label":"开发",
-		"nav_deputy":"doc",
-		"nav_url":"/home/sdnu-doc.html"
+		"nav_label":"代码库",
+		"nav_deputy":"code",
+		"nav_url":"/home/code-doc.html"
 	},
 	{
 		"nav_label":"留言",
