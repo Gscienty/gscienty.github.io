@@ -42,8 +42,8 @@
 
 				svg.append('circle')
 				.attr({
-					cx:currentPosition[0],
-					cy:currentPosition[1],
+					cx:(currentPosition[0] + currentPosition[2]) / 2,
+					cy:(currentPosition[1] + currentPosition[3]) / 2,
 					r:Math.sqrt(Math.pow(currentPosition[0]-currentPosition[2],2)+Math.pow(currentPosition[1]-currentPosition[3],2)),
 					stroke:'#330033',
 					'stroke-width':1,
