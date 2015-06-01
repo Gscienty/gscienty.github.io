@@ -82,7 +82,10 @@
             x1: 0,
             y1: 0,
             stroke: 1,
-            'stroke-width' : '#000'
+            'stroke-width' : '1'
+        })
+        .style({
+            stroke : '#000'
         });
 	var labels = [];
 
@@ -110,8 +113,8 @@
                 rLine.attr({
                     x0: currentPosition[0],
                     y0: currentPosition[1],
-                    x1: d3.mouse(this)[0],
-                    y1: d3.mouse(this)[1]
+                    x1: d3.mouse(this)[0]-10,
+                    y1: d3.mouse(this)[1]-10
                 });
             }
             else{
