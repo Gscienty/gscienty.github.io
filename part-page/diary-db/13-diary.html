@@ -77,10 +77,10 @@
     var svgImg = svg.append('image');
     var rLine = svg.append('line')
         .attr({
-            x0: 0,
-            y0: 0,
             x1: 0,
             y1: 0,
+            x2: 0,
+            y2: 0,
             stroke: 1,
             'stroke-width' : '1'
         })
@@ -111,10 +111,10 @@
 		}).on('mousemove',function () {
             if(drawing){
                 rLine.attr({
-                    x0: currentPosition[0],
-                    y0: currentPosition[1],
-                    x1: d3.mouse(this)[0]-10,
-                    y1: d3.mouse(this)[1]-10
+                    x1: currentPosition[0],
+                    y1: currentPosition[1],
+                    x2: d3.mouse(this)[0]-10,
+                    y2: d3.mouse(this)[1]-10
                 });
             }
             else{
