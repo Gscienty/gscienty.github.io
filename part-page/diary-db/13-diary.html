@@ -97,6 +97,33 @@
                 drawing = true;
             }
 		});
+    svg.append('line')
+        .attr({
+            x0: 0,
+            y0: 0,
+            x1: 0,
+            y1: 0,
+            stroke: 1,
+            'stroke-width' : '#000'
+        })
+        on('mousemove',function () {
+            if(drawing){
+                this.attr({
+                    x0: currentPosition[0],
+                    y0: currentPosition[1],
+                    x1: d3.mouse(this)[0],
+                    y1: d3.mouse(this)[1]
+                });
+            }
+            else{
+                this.attr({
+                    x0: 0,
+                    y0: 0,
+                    x1: 0,
+                    y1: 0
+                });
+            }
+        })
 </script>
 </body>
 </html>
