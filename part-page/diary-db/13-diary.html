@@ -61,6 +61,8 @@
 				}).on('mouseout',function () {
 					d3.select('#ms-display')
 					.classed({'hidden':true});
+				}).on('click',function () {
+				    alert('aa');
 				});
 
 				d3.select('#ms-box').classed({'hidden':true});
