@@ -73,6 +73,15 @@
 <script type="text/javascript">
 	var currentPosition = [];
     var drawing = false;
+    var rLine = svg.append('line')
+        .attr({
+            x0: 0,
+            y0: 0,
+            x1: 0,
+            y1: 0,
+            stroke: 1,
+            'stroke-width' : '#000'
+        });
 	var labels = [];
 
 	var svg = d3.select('#canv').append('svg').attr({width:500,height:600});
@@ -96,19 +105,9 @@
     			currentPosition.push(d3.mouse(this)[1]);
                 drawing = true;
             }
-		});
-    svg.append('line')
-        .attr({
-            x0: 0,
-            y0: 0,
-            x1: 0,
-            y1: 0,
-            stroke: 1,
-            'stroke-width' : '#000'
-        })
-        .on('mousemove',function () {
+		}).on('mousemove',function () {
             if(drawing){
-                this.attr({
+                rLine.attr({
                     x0: currentPosition[0],
                     y0: currentPosition[1],
                     x1: d3.mouse(this)[0],
@@ -116,14 +115,14 @@
                 });
             }
             else{
-                this.attr({
+                rLine.attr({
                     x0: 0,
                     y0: 0,
                     x1: 0,
                     y1: 0
                 });
             }
-        })
+        });
 </script>
 </body>
 </html>
