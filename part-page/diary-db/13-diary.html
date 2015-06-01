@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>UploadPicture</title>
+	<style media="screen">
+		.hidden{
+			display: none;
+		}
+		#ms-box{
+			position:absolute;
+			z-index: 2;
+		}
+		#ms-display{
+			background-color: #fff;
+			min-width: :2px;
+			position: absolute;
+			z-index: 2;
+		}
+		svg{
+			position:absolute;
+			top: 0;
+		}
+	</style>
+	<script src="/javascripts/d3.min.js"></script>
+</head>
+<body>
+<div id="canv">
+	<div id='ms-display' class="hidden">
+	</div>
+	<div id='ms-box' class='hidden'>
+		<input id='ms-close' type="button" value="X" />
+		<input id='ms-label' type="text" name="label" value="" />
+		<input id='ms-add' type="button" value="Add" />
+		<script type="text/javascript">
+			d3.select('#ms-close').on('click',function () {
+				d3.select('#ms-box').classed({'hidden':true});
+			});
+			d3.select('#ms-add').on('click',function () {
+				labels.push(document.getElementById('ms-label').value);
+
+				svg.append('circle')
+				.attr({
+					cx:currentPosition[0],
+					cy:currentPosition[1],
+					r:5,
+					stroke:'#330033',
+					'stroke-width':4,
+					fill:'#99FF00',
+					data:labels.length
+				}).on('mouseover',function (){
+					var choose = parseInt(this.getAttribute('data')) - 1;
+					d3.select('#ms-display')
+						.text(labels[choose])
+						.classed({'hidden':false})
+						.style({
+						'top' : d3.mouse(this)[1] + 20 + 'px',
+						'left' : d3.mouse(this)[0]+ 20 + 'px'
+					});
+				}).on('mouseout',function () {
+					d3.select('#ms-display')
+					.classed({'hidden':true});
+				});
+
+				d3.select('#ms-box').classed({'hidden':true});
+				document.getElementById('ms-label').value = "";
+			});
+		</script>
+	</div>
+</div>
+
+<script type="text/javascript">
+	var currentPosition = [];
+	var labels = [];
+
+	var svg = d3.select('#canv').append('svg').attr({width:500,height:600});
+	svg.append('image')
+		.attr({
+			'xlink:href':'/images/head.jpg',
+			height: 300,
+			width: 400
+		}).on('click',function () {
+			currentPosition = [];
+			currentPosition.push(d3.mouse(this)[0]);
+			currentPosition.push(d3.mouse(this)[1]);
+			d3.select('#ms-box').classed({'hidden':false}).style({
+				'top' : d3.mouse(this)[1]+'px',
+				'left' : d3.mouse(this)[0]+'px'
+			});
+		});
+</script>
+</body>
+</html>
