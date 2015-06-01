@@ -74,6 +74,7 @@
 	var currentPosition = [];
     var drawing = false;
 	var svg = d3.select('#canv').append('svg').attr({width:500,height:600});
+    var svgImg = svg.append('image');
     var rLine = svg.append('line')
         .attr({
             x0: 0,
@@ -85,8 +86,7 @@
         });
 	var labels = [];
 
-	svg.append('image',':first-child')
-		.attr({
+    svgImg.attr({
 			'xlink:href':'/images/head.jpg',
 			height: 300,
 			width: 400
