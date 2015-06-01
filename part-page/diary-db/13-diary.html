@@ -101,6 +101,7 @@
     				'top' : currentPosition[1]+'px',
     				'left' : currentPosition[0]+'px'
     			});
+                drawing = false;
             }
             else{
     			currentPosition = [];
@@ -119,10 +120,10 @@
             }
             else{
                 rLine.attr({
-                    x0: 0,
-                    y0: 0,
                     x1: 0,
-                    y1: 0
+                    y1: 0,
+                    x2: 0,
+                    y2: 0
                 });
             }
         });
