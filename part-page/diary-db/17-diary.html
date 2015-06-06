@@ -1,0 +1,86 @@
+<p>
+    Find or Query / Update / Remove Data with C# Driver
+    <br />
+    我们尽可能想象内存是透明的，我们直接操作的是Document。
+</p>
+
+<p>
+    MongoDB C# Driver提供了几种Find方法（1.10）
+    <br />
+    建议使用MongoDB.Driver.Builder.Query<T>()来构造约束条件。
+    <br />
+    <ol>
+        <li>
+            FindAllAs
+            &nbsp;&nbsp;
+            获取Collection下的所有Documents
+        </li>
+        <li>
+            FindAndModify
+            &nbsp;&nbsp;
+            查询并将查询到的Documents进行修改
+        </li>
+        <li>
+            FindAndRemove
+            &nbsp;&nbsp;
+            查询并将查询到的Documents删除
+        </li>
+        <li>
+            FindAs
+            &nbsp;&nbsp;
+            根据约束条件查询Documents
+        </li>
+        <li>
+            FindOneAs
+            &nbsp;&nbsp;
+            根据约束条件查询Documents，并将第一个Document返回
+        </li>
+        <li>
+            FindOneByIdAs
+            &nbsp;&nbsp;
+            根据ID获取Document
+        </li>
+    </ol>
+</p>
+<p>
+    直到刚刚才发现自己看的文档是多么的不合适。Docs中有1.x 到 2.0 的变化提示:
+    <br />
+    As 2.0 is a major revision, there are some breaking changes when coming from the 1.x assemblies.
+    We've tried our best to mitigate those breaking changes, but some were inevitable. These changes may not affect everyone.
+    <br />
+    本篇几乎是自己摸索 还是看1.10的文档比较靠谱：
+    <a href="http://mongodb.github.io/mongo-csharp-driver/1.10/getting_started/">http://mongodb.github.io/mongo-csharp-driver/1.10/getting_started/</a>
+    <br />
+    大致上还是相当的，总感觉风格上有些许的差异。
+</p>
+
+<p>
+    这里还是着重将Entity修改/查询，而非BSON。
+</p>
+<p>
+    Save a Document
+    <br />
+    你可以通过Save方法修改一个已经存在的文档
+    <pre>
+        entity.Name = "Dick";
+        collection.Save(entity);
+    </pre>
+</p>
+<p>
+    Update an Existing Document
+    <br />
+    与Save不同的是，Save是发送一个曾从Server发来的一个完整的Entity。而Update仅仅发送的是修改的部分。
+    <pre>
+        var query = Query<Entity>.EQ(e=>e.Id, id);
+        var update = Update<Entity>.Set(e=>e.Name, "Herry");
+        collection.Update(query, update);
+    </pre>
+</p>
+<p>
+    Remove an Existing Document
+    <br />
+    <pre>
+        var query = Query<Entity>.EQ(e=>e.Id, id);
+        collection.Remove(query);
+    </pre>
+</p>
