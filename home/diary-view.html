@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <meta http-equiv="pragma" content="no-cache" />
+    <title>Gscienty</title>
+    <link rel="stylesheet" type="text/css" href="/style/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/default.css"/>
+    <script type="text/javascript" src="/javascripts/default.js"></script>
+    <style>
+    	#article-content p{
+    		font-size:18px;
+    		line-height:24px;
+    		font-family:'Microsoft Yahei';
+    	}
+    </style>
+</head>
+<body>
+    <script type="text/javascript" src='/javascripts/jquery-1.11.2.min.js'></script>
+    <div class="container">
+        <div class="page-header">
+          <h1 style="font-family:'Impact'">Gscienty Blog <small>Art apprentice.</small></h1>
+        </div>
+        <ol id="nav-ol" class="breadcrumb" style="background:#fff">
+        </ol>
+        <div class="jumbotron" style="background:#fff">
+            <h2 style="text-align:center;"><span style="font-family:'Microsoft Yahei'" id="title"></span>&nbsp;&nbsp;<small id="time" style="font-size:12px"></small></h2>
+            <hr />
+            <div id="article-content">
+            	<p style="text-align:center;font-family:'Impact'">Loading...</p>
+            </div>
+        </div>
+    </div>
+
+	<div class="page-footer">
+		<p style="text-align:center">This is Gscienty. From CHINA.</p>
+	</div>
+    <script type="text/javascript">
+        $.getJSON('/part-page/nav.json',function (result) {
+            $.each(result,function (key, value) {
+                $("#nav-ol").append('<li><a href="'+value.nav_url+'"><h4>'+value.nav_label+'<small>'+value.nav_deputy+'</small></h4></a></li>')
+            });
+        });
+
+
+        var params = get_query_params();
+        $.getJSON("/part-page/diary-list.json",function (result) {
+            $.each(result, function (key, value) {
+                if(value.index == params['index']){
+                    $("#title").html(value.title);
+                    $("#time").html(value.time);
+                }
+            });
+        });
+        
+        $.get("/part-page/diary-db/"+params['index']+"-diary.html",function(htmlText){
+            $("#article-content").html(htmlText);
+        });
+    </script>
+    <script type="text/javascript" src='/javascripts/bootstrap.min.js'></script>
+</body>
+</html>

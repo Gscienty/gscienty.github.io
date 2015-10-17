@@ -3,103 +3,105 @@
     <head>
         <meta charset="utf-8" />
         <title>Gscienty Blog.</title>
-    </head>
-    <link rel="stylesheet" href="fund/bootstrap.min.css" media="screen" title="no title" charset="utf-8">
-    <style media="screen">
-        *{
-            font-family: "Microsoft JhengHei";
-            font-size: 20px;
-        }
-        body{
-            background-color: #FFCCCC;
-        }
-        .block{
-            padding-top: 0%;
-            width:40%;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        a{
-            position: relative;
-            display: inline-block;
-            outline: none;
-            text-decoration: none;
-            color: #000;
-            text-shadow: 0px 0px 2px #000066;
-            margin-left: 40px;
-            padding-left: 10px;
-            padding-right: 10px;
-            padding-top: 10px;
-            font-weight: 500;
-            -webkit-transition: color 0.6s;
-            transition: color 0.6s;
-        }
-        a:hover{
-            color: #000033;
-            -webkit-transition:color 0.6s;
-            transition: color 0.6s;
-            text-decoration: none;
-        }
+        <link rel="stylesheet" href="fund/bootstrap.min.css" media="screen" title="no title" charset="utf-8">
+        <style media="screen">
+            *{
+                font-family: "Microsoft JhengHei";
+                font-size: 20px;
+            }
+            body{
+                background-color: #FFCCCC;
+            }
+            .block{
+                padding-top: 0%;
+                width:40%;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            a{
+                position: relative;
+                display: inline-block;
+                outline: none;
+                text-decoration: none;
+                color: #000;
+                text-shadow: 0px 0px 2px #000066;
+                margin-left: 40px;
+                padding-left: 10px;
+                padding-right: 10px;
+                padding-top: 10px;
+                font-weight: 500;
+                -webkit-transition: color 0.6s;
+                transition: color 0.6s;
+            }
+            a:hover{
+                color: #000033;
+                -webkit-transition:color 0.6s;
+                transition: color 0.6s;
+                text-decoration: none;
+                cursor:pointer;
+            }
 
-        a::before,a::after{
-            position: absolute;
-            opacity: 0;
-            font-size: 150%;
-            -webkit-transition: opacity 0.2s, -webkit-transform 0.2s;
-            transition: opacity 0.2s, transform 0.2s;
-        }
-        a::before{
-            left: -1em;
-            top: 5px;
-            content: '『';
-            -webkit-transform: translateX(-100%);
-            transform: translateX(-100%);
-        }
-        a::after{
-            right: -0.5em;
-            top: 5px;
-            content: '』';
-            -webkit-transform: translateX(100%);
-            transform: translateX(100%);
-        }
-        a:hover::before, a:hover::after{
-            opacity: 1;
-            -webkit-transform: translateX(0);
-            transform: translateX(0);
-        }
-        p{
-            padding-top: 20px;
-        }
-    </style>
+            a::before,a::after{
+                position: absolute;
+                opacity: 0;
+                font-size: 150%;
+                -webkit-transition: opacity 0.2s, -webkit-transform 0.2s;
+                transition: opacity 0.2s, transform 0.2s;
+            }
+            a::before{
+                left: -1em;
+                top: 5px;
+                content: '『';
+                -webkit-transform: translateX(-100%);
+                transform: translateX(-100%);
+            }
+            a::after{
+                right: -0.5em;
+                top: 5px;
+                content: '』';
+                -webkit-transform: translateX(100%);
+                transform: translateX(100%);
+            }
+            a:hover::before, a:hover::after{
+                opacity: 1;
+                -webkit-transform: translateX(0);
+                transform: translateX(0);
+            }
+            p{
+                padding-top: 20px;
+            }
+        </style>
+    </head>
     <body>
         <div align="center" class="block">
-            <svg width="100%" height="420px" version="1.1" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="90" cy="200" r="60" fill="#333" stroke="#333" stroke-width="20"/>
-                <circle cx="440" cy="320" r="40" stroke="black" stroke-width="20"/>
-                <circle cx="380" cy="380" r="10" stroke="black" stroke-width="20"/>
-                <circle cx="250" cy="250" r="150" stroke="black" stroke-width="40" fill="#FFCCCC" />
-                <path stroke="black" stroke-width="15"
-                    d="
-                    M250 100
-                    C150 110 150 250 250 250
-                    C250 400 250 400 250 400
-                    C420 400 450 120 250 100
-                " />
-                <circle cx="275" cy="200" r="10" stroke="#FFCCCC" stroke-width="20"/>
-            </svg>
-            <p>
-                心无旁骛，持之以恒
-            </p>
         </div>
 
         <div class="navbar navbar-fixed-top">
             <div class="container">
-                <a href="">主页</a>
+                <a room="face" page="default">主页</a>
+                <a room="none" page="default">404</a>
            </div>
         </div>
 
         <script src="fund/jquery-1.11.2.min.js" charset="utf-8"></script>
         <script src="fund/bootstrap.min.js" charset="utf-8"></script>
+
+
+        <script type="text/javascript">
+            //debug flag
+            var DEBUG = false;
+            //fill content block (div class)
+            var FILL_BLOCK = '.block'
+
+            //checkout block content method
+            function checkout_content(data_url){
+                $(FILL_BLOCK).fadeOut(400, function(){
+                    $(FILL_BLOCK).load(data_url, function(){
+                        $(FILL_BLOCK).fadeIn(800);
+                    })
+                })
+            };
+        </script>
 
         <script src="page_fund/page_script.js" charset="utf-8"></script>
 
@@ -115,51 +117,160 @@
 
                     this.room_class_map = {};
 
+                    //check key exists in the array
+                    function exists_parameter(parameter_array, finded_key){
+                        for(array_key in parameter_array){
+                            if(array_key === finded_key) return true;
+                        }
+                        return false;
+                    }
+
+                    //update address information
+                    this.update_address_info = function(){
+                        //clear origin router message
+                        this.address_info = [];
+                        //get new router message by url
+                        var url = window.location.href.split('#');
+                        var parameters = new Array();
+                        if(url.length > 1){
+                            var param_elements = url[1].split('&');
+                            for(var iterator = 0, param_elements_length = param_elements.length; iterator < param_elements_length; iterator++){
+                                var key_value_pair = param_elements[iterator].split('=');
+                                parameters[key_value_pair[0]] = key_value_pair[1];
+                            }
+                            this.address_info.parameters = parameters;
+                        }
+
+                        //get room message and page message by parameters
+                        if(exists_parameter(this.address_info.parameters, "room")){
+                            this.address_info.room = this.address_info.parameters["room"];
+
+                            if(exists_parameter(this.address_info.parameters, "page")){
+                                this.address_info.page = this.address_info.parameters["page"];
+                            }
+                            else{
+                                this.page = "default";
+                            }
+                        }
+                        else{
+                            self.room = "face";
+                            self.page = "default";
+                        }
+                    };
+
                     //initialize method
                     this.init = function(){
                         //update router message(address infomation)
-                        (function(self){
-                            //clear origin router message
-                            self.address_info.length = [];
-                            //get new router message by url
-                            var url = window.location.href.split('?');
-                            if(url.length > 1){
-                                var param_elements = url[1].split('&');
-                                for(var iterator = 0, param_elements_length = param_elements.length; iterator < param_elements_length; iterator++){
-                                    var key_value_pair = param_elements[iterator].split('=');
-                                    self.address_info[key_value_pair[0]] = key_value_pair[1];
+                        this.update_address_info();
+                        //get room parameter - class map
+                        if(DEBUG){
+                            this.room_class_map = {
+                                "face" : {
+                                    class_name : "face_room",
+                                    execute_method : "execute",
                                 }
-                            }
-
-                            //get room message and page message by parameters
-                            if(self.address_info["room"] != undefined){
-                                self.room = self.address_info["room"];
-
-                                if(self.address_info["page"] != undefined){
-                                    self.page = self.address_info["page"];
-                                }
-                                else{
-                                    self.page = "default";
-                                }
-                            }
-                            else{
-                                self.room = "face";
-                                self.page = "default";
-                            }
-                            
-                        })(this);
+                            };
+                        }
+                        else{
+                            (function(self){
+                                //async request master json data what used room name - class name map.
+                                $.ajaxSettings.async = false;
+                                $.getJSON("page_fund/db_room_class_map.json", function(result){
+                                    self.room_class_map = result;
+                                });
+                                $.ajaxSettings.async = true;
+                            })(this);
+                        }
                     };
 
                     //finding page method
                     this.routing = function(){
-                        //find page use by route message
+                        //set default routing
+                        if(this.address_info.room === undefined){
+                            this.address_info.room = "face";
+                            this.address_info.page = "default";
+                        }
 
+                        //find page use by route message
+                        if(exists_parameter(this.room_class_map, this.address_info.room)){
+                            return this.room_class_map[this.address_info.room];
+                        }
+                        else{
+                            if(DEBUG){
+                                this.address_info.room = "face";
+                                this.address_info.page = "default";
+                            }
+                            else{
+                                this.address_info.room = "method-page";
+                                this.address_info.page = "404";
+                                this.address_info.parameters['page'] = '404';
+                            }
+                             return this.routing();
+                        }
+                    }
+
+                    //get page url's parameter array
+                    this.get_parameters = function(){
+                        return this.address_info.parameters;
+                    }
+                }
+            })(this);
+
+            //page component
+            (function(root){
+                root.container = function(){
+                    this.component_info = {};
+                    this.component = {};
+
+                    //update container information and get it
+                    this.update_container = function(component, info){
+                        //set container and container information
+                        this.component_info = info;
+                        this.component = component;
+
+                        //initialize this container
+                        this.component.initialize();
+                    };
+
+                    this.execute = function(){
+                        if(this.component_info.need_parameters){
+                            (this.component[this.component_info.execute_method])(this.component_info.parameters);
+                        }
+                        else{
+                            (this.component[this.component_info.execute_method])();
+                        }
                     }
                 }
             })(this);
 
             var route = new router();
+            var contain = new container();
             route.init();
+
+            //first page initialize
+            (function(root, route, container){
+                root.container_adapt = function(){
+                    //temp var to cache route information(class name and main execute method)
+                    var cache_routing_info = route.routing();
+                    //temp var to cache address parameters
+                    cache_routing_info.parameters = route.get_parameters();
+                    container.update_container(new this[cache_routing_info.class_name], cache_routing_info);
+                    container.execute();
+                };
+
+                root.container_adapt();
+            })(this, route, contain);
+
+            //rewrite a click event
+            $('.navbar a').click(function(){
+                //change url
+                window.location.href = '#room='+$(this).attr('room')+'&page='+$(this).attr('page');
+                //update address information by url
+                route.update_address_info();
+                //container apdate route change.
+                container_adapt();
+            });
+
         </script>
     </body>
 </html>

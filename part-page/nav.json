@@ -1,0 +1,27 @@
+[
+	{
+		"nav_label":"封面",
+		"nav_deputy":"face",
+		"nav_url":"/index.html"
+	},
+	{
+		"nav_label":"首页",
+		"nav_deputy":"index",
+		"nav_url":"/home/index.html"
+	},
+	{
+		"nav_label":"日志",
+		"nav_deputy":"diary",
+		"nav_url":"/home/diary.html"
+	},
+	{
+		"nav_label":"代码库",
+		"nav_deputy":"code",
+		"nav_url":"/home/code-doc.html"
+	},
+	{
+		"nav_label":"留言",
+		"nav_deputy":"issues",
+		"nav_url":"https://github.com/Gscienty/gscienty.github.io/issues/new"
+	}
+]

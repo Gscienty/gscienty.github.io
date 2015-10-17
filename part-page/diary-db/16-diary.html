@@ -1,0 +1,52 @@
+<p>
+    Insert Data
+</p>
+<p>
+    MongoDB提供两种插入数据的方法：InsertOneAsync和InsertManyAsync。(2.0) || Insert和InsertBatch。(1.10)
+    <br /><br />
+    如果你的文档要加入的集合不存在，MongoDB将会首先创建该集合，然后再将文档插入到该集合中。
+</p>
+<p>
+    由于1.10没有Async概念，所以就硬插就好了XD
+    <pre>
+        MongoClient client = new MongoClient();
+        MongoDatabase database = client.GetServer().GetDatabase("test");
+
+        BsonDocument document = new BsonDocument
+        {
+            { "address" , new BsonDocument
+                {
+                    { "street", "2 Avenue" },
+                    { "zipcode", "10075" },
+                    { "building", "1480" },
+                    { "coord", new BsonArray { 73.9557413, 40.7720266 } }
+                }
+            },
+            { "borough", "Manhattan" },
+            { "cuisine", "Italian" },
+            { "grades", new BsonArray
+                {
+                    new BsonDocument
+                    {
+                        { "date", new DateTime(2014, 10, 1, 0, 0, 0, DateTimeKind.Utc) },
+                        { "grade", "A" },
+                        { "score", 11 }
+                    },
+                    new BsonDocument
+                    {
+                        { "date", new DateTime(2014, 1, 6, 0, 0, 0, DateTimeKind.Utc) },
+                        { "grade", "B" },
+                        { "score", 17 }
+                    }
+                }
+            },
+            { "name", "Vella" },
+            { "restaurant_id", "41704620" }
+        };
+
+        MongoCollection&lt;BsonDocument&gt; collection = database.GetCollection&lt;BsonDocument&gt;("restaurants"); collection.Insert(document);
+    </pre>
+</p>
+<p>
+    这里的语法很是奇特唷。
+</p>
