@@ -70,21 +70,27 @@
             p{
                 padding-top: 20px;
             }
+            small{
+                font-size:9px;
+            }
         </style>
     </head>
     <body>
-        <div align="center" class="block">
+        <div class="container">
+            <div align="center" class="block" style="margin-top:40px">
+            </div>
         </div>
 
         <div class="navbar navbar-fixed-top">
-            <div class="container">
-                <a room="face" page="default">主页</a>
-                <a room="none" page="default">404</a>
+            <div align="center" class="container" style="margin-left:auto; margin-right:auto">
+                <a room="face" page="default">主页 <small>home page</small></a>
+                <a room="journal" page="list">日志 <small>journal</small> </a>
            </div>
         </div>
 
         <script src="fund/jquery-1.11.2.min.js" charset="utf-8"></script>
         <script src="fund/bootstrap.min.js" charset="utf-8"></script>
+        <script src="fund/markdown.min.js" charset="utf-8"></script>
 
 
         <script type="text/javascript">
