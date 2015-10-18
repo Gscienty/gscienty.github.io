@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8" />
         <title>Gscienty Blog.</title>
-        <link rel="stylesheet" href="fund/bootstrap.min.css" media="screen" title="no title" charset="utf-8">
+        <link rel="stylesheet" href="fund/bootstrap.min.css" media="screen" title="no title" charset="utf-8" />
         <style media="screen">
             *{
                 font-family: "Microsoft JhengHei";
@@ -77,14 +77,13 @@
     </head>
     <body>
         <div class="container">
-            <div align="center" class="block" style="margin-top:40px">
-            </div>
+            <div align="center" class="block" style="margin-top:40px"></div>
         </div>
+
+        <div class="swap_block hidden"></div>
 
         <div class="navbar navbar-fixed-top">
             <div align="center" class="container" style="margin-left:auto; margin-right:auto">
-                <a room="face" page="default">主页 <small>home page</small></a>
-                <a room="journal" page="list">日志 <small>journal</small> </a>
            </div>
         </div>
 
@@ -97,14 +96,37 @@
             //debug flag
             var DEBUG = false;
             //fill content block (div class)
-            var FILL_BLOCK = '.block'
+            var DISPLAY_BLOCK = '.block';
+            var SWAP_BLOCK = '.swap_block';
+            var FILL_BLOCK = DISPLAY_BLOCK;
 
             //checkout block content method
             function checkout_content(data_url){
-                $(FILL_BLOCK).fadeOut(400, function(){
-                    $(FILL_BLOCK).load(data_url, function(){
-                        $(FILL_BLOCK).fadeIn(800);
-                    })
+                $.ajax({
+                    url : data_url,
+                    async : false,
+                    cache : false,
+                    context : $(FILL_BLOCK),
+                    complete : function(data){
+                        //animating time use swap space
+                        FILL_BLOCK = SWAP_BLOCK;
+
+                        //content response text to fill block
+                        $(FILL_BLOCK).html(data.responseText);
+                        //begin animate
+                        $(DISPLAY_BLOCK).fadeOut(400, function(){
+                            //finish animating use display space
+                            FILL_BLOCK = DISPLAY_BLOCK;
+                            //clear display block
+                            $(DISPLAY_BLOCK).html('');
+                            //copy swap space's inner html data to display space
+                            $(FILL_BLOCK).append($(SWAP_BLOCK).html());
+                            //clear swap space
+                            $(SWAP_BLOCK).html('');
+                            //show the display block (animate)
+                            $(DISPLAY_BLOCK).fadeIn(800);
+                        });
+                    },
                 })
             };
         </script>
@@ -180,11 +202,11 @@
                         else{
                             (function(self){
                                 //async request master json data what used room name - class name map.
-                                $.ajaxSettings.async = false;
+                                $.ajaxSettings.async = false;   //close async switch
                                 $.getJSON("page_fund/db_room_class_map.json", function(result){
                                     self.room_class_map = result;
                                 });
-                                $.ajaxSettings.async = true;
+                                $.ajaxSettings.async = true;    //open async switch
                             })(this);
                         }
                     };
@@ -207,9 +229,7 @@
                                 this.address_info.page = "default";
                             }
                             else{
-                                this.address_info.room = "method-page";
-                                this.address_info.page = "404";
-                                this.address_info.parameters['page'] = '404';
+                                this.transfrom_404();
                             }
                              return this.routing();
                         }
@@ -218,6 +238,20 @@
                     //get page url's parameter array
                     this.get_parameters = function(){
                         return this.address_info.parameters;
+                    }
+
+                    //transfrom to 404 page
+                    this.transfrom_404 = function(){
+                        this.address_info.room = "method-page";
+                        this.address_info.page = "404";
+                        this.address_info.parameters['page'] = '404';
+                    }
+
+                    //transfrom to 500 page
+                    this.transfrom_500 = function(){
+                        this.address_info.room = "method-page";
+                        this.address_info.page = "500";
+                        this.address_info.parameters['page'] = '500';
                     }
                 }
             })(this);
@@ -250,22 +284,42 @@
             })(this);
 
             var route = new router();
-            var contain = new container();
             route.init();
 
-            //first page initialize
-            (function(root, route, container){
+            //adapt update route method render page by container;
+            (function(root, route){
+                var page_container = new container();
                 root.container_adapt = function(){
                     //temp var to cache route information(class name and main execute method)
                     var cache_routing_info = route.routing();
                     //temp var to cache address parameters
                     cache_routing_info.parameters = route.get_parameters();
-                    container.update_container(new this[cache_routing_info.class_name], cache_routing_info);
-                    container.execute();
+                    try{
+                        page_container.update_container(new this[cache_routing_info.class_name], cache_routing_info);
+                        page_container.execute();
+                    }
+                    catch(e){
+                        route.transfrom_500();
+                        root.container_adapt();
+                    }
                 };
 
                 root.container_adapt();
-            })(this, route, contain);
+            })(this, route);
+
+
+            //load nav data
+            (function(nav_context){
+
+                $.ajaxSettings.async = false;   //close async switch
+                $.getJSON("page_fund/db_nav_list.json",function(result){
+                    $.each(result.nav_list, function(key, value){
+                        nav_context.append("<a room='" + value.room + "' page='" + value.page + "'>" + value.innerText + " <small>" + value.innerPostscript + "</small></a>")
+                    });
+                });
+                $.ajaxSettings.async = true;    //open async switch
+            })($(".navbar .container"));
+
 
             //rewrite a click event
             $('.navbar a').click(function(){

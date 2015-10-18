@@ -1,4 +1,5 @@
 {
     "face": {"class_name": "face_room", "execute_method": "render", "need_parameters" : false },
-    "method-page" : { "class_name": "method_room", "execute_method": "routing", "need_parameters" : true }
+    "method-page" : { "class_name": "method_room", "execute_method": "routing", "need_parameters" : true },
+    "journal" : {"class_name" : "journal_room", "execute_method": "routing", "need_parameters" : true}
 }

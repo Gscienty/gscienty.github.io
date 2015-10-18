@@ -30,10 +30,26 @@ method_room.prototype.extend({
     on_init : function(){
 
     },
-    routing : function(page_name){
-        switch(page_name.page){
+    routing : function(parameters){
+        switch(parameters.page){
             case '404':
                 checkout_content('page_fund/html/404.html');
+                break;
+            case '500':
+                checkout_content('page_fund/html/500.html');
+                break;
         }
+    }
+});
+
+function journal_room(){}
+journal_room.prototype = new base_page();
+journal_room.prototype.extend({
+    on_init : function(){
+        checkout_content('page_fund/html/journal_list_model.html');
+    },
+
+    routing : function(parameters){
+        
     }
 })
