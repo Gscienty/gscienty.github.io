@@ -180,7 +180,7 @@
                                      break;
                                  case "json":
                                      $.ajaxSettings.async = false;   //close async switch
-                                     $.getJSON(stroke[key]["address"], null, function(result){
+                                     $.getJSON(stroke[key]["address"]+'?'+Math.random(), null, function(result){
                                          stroke[key]["value"] = result;
                                      })
                                      $.ajaxSettings.async = true;   //open async switch
