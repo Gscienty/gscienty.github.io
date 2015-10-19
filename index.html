@@ -123,6 +123,7 @@
 
                     //show the display block (animate)
                     $(DISPLAY_BLOCK).fadeIn(800);
+                    $('body,html').animate({'scrollTop':$(window).scrollTop()+400},600);
                 });
             }
 
@@ -352,10 +353,14 @@
                 var page_container = (function(root){
                     root.container = function(){
                         this.component_info = {};
-                        this.component = {};
+                        this.component = null;
 
                         //update container information and get it
                         this.update_container = function(component, info){
+                            //execute punish method for old page.
+                            if(this.component != null){
+                                this.component.punish();
+                            }
                             //set container and container information
                             this.component_info = info;
                             this.component = component;

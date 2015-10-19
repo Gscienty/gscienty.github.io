@@ -2,6 +2,7 @@
      "404" : {"type":"html", "address":"page_fund/html/404.html"},
      "500" : {"type":"html", "address":"page_fund/html/500.html"},
      "journal-list-model" : {"type":"html", "address":"page_fund/html/journal_list_model.html"},
+     "journal-display-model" : {"type":"html", "address":"page_fund/html/journal_display_model.html"},
      "journal-theme" : {"type":"json", "address":"page_fund/db_journal/db_theme_index.json"},
      "replace-flag" : {"type":"json", "address":"page_fund/db_journal/db_replace_flag.json"}
 }
