@@ -10,7 +10,7 @@
                 font-size: 20px;
             }
             body{
-                background-color: #FFCCCC;
+                background-color: #EDEDED;
             }
             .block{
                 padding-top: 0%;
@@ -18,7 +18,7 @@
                 margin-left: auto;
                 margin-right: auto;
             }
-            a{
+            .nava{
                 position: relative;
                 display: inline-block;
                 outline: none;
@@ -33,7 +33,7 @@
                 -webkit-transition: color 0.6s;
                 transition: color 0.6s;
             }
-            a:hover{
+            .nava:hover{
                 color: #000033;
                 -webkit-transition:color 0.6s;
                 transition: color 0.6s;
@@ -41,28 +41,28 @@
                 cursor:pointer;
             }
 
-            a::before,a::after{
+            .nava::before,.nava::after{
                 position: absolute;
                 opacity: 0;
                 font-size: 150%;
                 -webkit-transition: opacity 0.2s, -webkit-transform 0.2s;
                 transition: opacity 0.2s, transform 0.2s;
             }
-            a::before{
+            .nava::before{
                 left: -1em;
                 top: 5px;
                 content: '『';
                 -webkit-transform: translateX(-100%);
                 transform: translateX(-100%);
             }
-            a::after{
+            .nava::after{
                 right: -0.5em;
                 top: 5px;
                 content: '』';
                 -webkit-transform: translateX(100%);
                 transform: translateX(100%);
             }
-            a:hover::before, a:hover::after{
+            .nava:hover::before, .nava:hover::after{
                 opacity: 1;
                 -webkit-transform: translateX(0);
                 transform: translateX(0);
@@ -76,16 +76,16 @@
         </style>
     </head>
     <body>
+
+        <div class="navbar">
+            <div align="center" class="container" style="margin-top:80px;width:100%;min-height:300px;margin-left:auto; margin-right:auto;background-position:center;background-repeat:no-repeat; background-image:url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBhbGlnbj0iY2VudGVyIiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgNjAgTDYwIDAgTDM0MCAwIEw0MDAgNjAgTDIwMCAyNzAgWiIgZmlsbD0iI0NDQ0M5OSIgLz48L3N2Zz4=);"></div>
+        </div>
+
         <div class="container">
-            <div align="center" class="block" style="margin-top:40px"></div>
+            <div align="center" class="block" style="margin-top:20px;width:100%"></div>
         </div>
 
         <div class="swap_block hidden"></div>
-
-        <div class="navbar navbar-fixed-top">
-            <div align="center" class="container" style="margin-left:auto; margin-right:auto">
-           </div>
-        </div>
 
         <script src="fund/jquery-1.11.2.min.js" charset="utf-8"></script>
         <script src="fund/bootstrap.min.js" charset="utf-8"></script>
@@ -95,47 +95,132 @@
         <script type="text/javascript">
             //debug flag
             var DEBUG = false;
-            //fill content block (div class)
+            //display block (div class)
             var DISPLAY_BLOCK = '.block';
+            //swap block (div class)
             var SWAP_BLOCK = '.swap_block';
+            //default fill block point display block
             var FILL_BLOCK = DISPLAY_BLOCK;
 
-            //checkout block content method
+            function checkout_content_use_html(cache){
+                //animating time use swap space
+                FILL_BLOCK = SWAP_BLOCK;
+
+                //content response text to fill block
+                $(FILL_BLOCK).html(cache);
+
+                //begin animate
+                $(DISPLAY_BLOCK).fadeOut(400, function(){
+                    //finish animating use display space
+                    FILL_BLOCK = DISPLAY_BLOCK;
+                    //clear display block
+                    $(DISPLAY_BLOCK).html('');
+
+                    //copy swap space's inner html data to display space
+                    $(FILL_BLOCK).append($(SWAP_BLOCK).html());
+                    //clear swap space
+                    $(SWAP_BLOCK).html('');
+
+                    //show the display block (animate)
+                    $(DISPLAY_BLOCK).fadeIn(800);
+                });
+            }
+
+            //checkout block content method by url
             function checkout_content(data_url){
                 $.ajax({
                     url : data_url,
                     async : false,
                     cache : false,
-                    context : $(FILL_BLOCK),
                     complete : function(data){
-                        //animating time use swap space
-                        FILL_BLOCK = SWAP_BLOCK;
-
-                        //content response text to fill block
-                        $(FILL_BLOCK).html(data.responseText);
-                        //begin animate
-                        $(DISPLAY_BLOCK).fadeOut(400, function(){
-                            //finish animating use display space
-                            FILL_BLOCK = DISPLAY_BLOCK;
-                            //clear display block
-                            $(DISPLAY_BLOCK).html('');
-                            //copy swap space's inner html data to display space
-                            $(FILL_BLOCK).append($(SWAP_BLOCK).html());
-                            //clear swap space
-                            $(SWAP_BLOCK).html('');
-                            //show the display block (animate)
-                            $(DISPLAY_BLOCK).fadeIn(800);
-                        });
+                        checkout_content_use_html(data.responseText);
                     },
-                })
+                });
             };
+
+            //cache stroke class only one instance
+            (function(root){
+                root.cache_strock = new (function(){
+                     var stroke = {};
+
+                     //add page cache room
+                     this.load_page = function(key, data_url){
+                         stroke[key] = {};
+                         stroke[key]["type"] = "html";
+                         stroke[key]["address"] = data_url;
+                         stroke[key]["cached"] = false;
+                     };
+
+                     //add json cache page
+                     this.load_json = function(key, data_url){
+                         stroke[key] = {};
+                         stroke[key]["type"] = "json";
+                         stroke[key]["address"] = data_url;
+                         stroke[key]["cached"] = false;
+                     }
+
+                     //get cache (lazy strategy)
+                     this.get_data = function(key){
+                         if(stroke[key] != undefined){
+                             if(stroke[key]["cached"]){
+                                 return stroke[key]["value"];
+                             }
+                             else{
+                                 switch(stroke[key]["type"]){
+                                 case "html":
+                                     $.ajax({
+                                         url : stroke[key]["address"],
+                                         async : false,
+                                         cache : false,
+                                         complete : function(data){
+                                             stroke[key]["value"] = data.responseText;
+                                         }
+                                     });
+                                     break;
+                                 case "json":
+                                     $.ajaxSettings.async = false;   //close async switch
+                                     $.getJSON(stroke[key]["address"], null, function(result){
+                                         stroke[key]["value"] = result;
+                                     })
+                                     $.ajaxSettings.async = true;   //open async switch
+                                     break;
+                                 }
+
+                                 return stroke[key]["value"];
+                             }
+                         }
+                         else{
+                             return null;
+                         }
+                     }
+                });
+            })(this);
+
+
+            //fill cache stroke
+            (function(stroke){
+                $.ajaxSettings.async = false;   //close async switch
+                $.getJSON("page_fund/db_need_cache.json", function(result){
+                    for(property in result){
+                        switch(result[property]["type"]){
+                            case "html":
+                                stroke.load_page(property, result[property]["address"]);
+                            break;
+                            case "json":
+                                stroke.load_json(property, result[property]["address"]);
+                            break;
+                        }
+                    }
+                });
+                $.ajaxSettings.async = true;    //open async switch
+            })(cache_strock);
         </script>
 
         <script src="page_fund/page_script.js" charset="utf-8"></script>
 
         <script type="text/javascript">
             //router class
-            (function(root){
+            var route = (function(root){
                 root.router = function(){
                     this.address_info = {
                         parameters : [],
@@ -254,41 +339,44 @@
                         this.address_info.parameters['page'] = '500';
                     }
                 }
+
+                return new root.router();
             })(this);
 
-            //page component
-            (function(root){
-                root.container = function(){
-                    this.component_info = {};
-                    this.component = {};
-
-                    //update container information and get it
-                    this.update_container = function(component, info){
-                        //set container and container information
-                        this.component_info = info;
-                        this.component = component;
-
-                        //initialize this container
-                        this.component.initialize();
-                    };
-
-                    this.execute = function(){
-                        if(this.component_info.need_parameters){
-                            (this.component[this.component_info.execute_method])(this.component_info.parameters);
-                        }
-                        else{
-                            (this.component[this.component_info.execute_method])();
-                        }
-                    }
-                }
-            })(this);
-
-            var route = new router();
+            //initialize router
             route.init();
 
-            //adapt update route method render page by container;
+            //adapt update route method render page by container
             (function(root, route){
-                var page_container = new container();
+                //page component
+                var page_container = (function(root){
+                    root.container = function(){
+                        this.component_info = {};
+                        this.component = {};
+
+                        //update container information and get it
+                        this.update_container = function(component, info){
+                            //set container and container information
+                            this.component_info = info;
+                            this.component = component;
+
+                            //initialize this container
+                            this.component.initialize();
+                        };
+
+                        this.execute = function(){
+                            if(this.component_info.need_parameters){
+                                (this.component[this.component_info.execute_method])(this.component_info.parameters);
+                            }
+                            else{
+                                (this.component[this.component_info.execute_method])();
+                            }
+                        }
+                    }
+
+                    return new root.container();
+                })(root);
+
                 root.container_adapt = function(){
                     //temp var to cache route information(class name and main execute method)
                     var cache_routing_info = route.routing();
@@ -299,6 +387,7 @@
                         page_container.execute();
                     }
                     catch(e){
+                        console.log(e);
                         route.transfrom_500();
                         root.container_adapt();
                     }
@@ -314,12 +403,11 @@
                 $.ajaxSettings.async = false;   //close async switch
                 $.getJSON("page_fund/db_nav_list.json",function(result){
                     $.each(result.nav_list, function(key, value){
-                        nav_context.append("<a room='" + value.room + "' page='" + value.page + "'>" + value.innerText + " <small>" + value.innerPostscript + "</small></a>")
+                        nav_context.append("<br /><a class='nava' room='" + value.room + "' page='" + value.page + "'>" + value.innerText + " <small>" + value.innerPostscript + "</small></a>")
                     });
                 });
                 $.ajaxSettings.async = true;    //open async switch
             })($(".navbar .container"));
-
 
             //rewrite a click event
             $('.navbar a').click(function(){
