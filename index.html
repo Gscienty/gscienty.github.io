@@ -73,6 +73,35 @@
             small{
                 font-size:9px;
             }
+
+            .ani_dot {
+                font-family: simsun;
+            }
+            :root .ani_dot { /* 这里使用Hack是因为IE6~IE8浏览器下， vertical-align解析不规范，值为bottom或其他会改变按钮的实际高度*/
+                display: inline-block;
+                width: 20px;
+                vertical-align: bottom;
+                overflow: hidden;
+            }
+            @-webkit-keyframes dot {
+                0% { width: 0; margin-right: 1.5em; }
+                33% { width: .5em; margin-right: 1em; }
+                66% { width: 1em; margin-right: .5em; }
+                100% { width: 1.5em; margin-right: 0;}
+            }
+            .ani_dot {
+                -webkit-animation: dot 3s infinite step-start;
+            }
+
+            @keyframes dot {
+                0% { width: 0; margin-right: 1.5em; }
+                33% { width: .5em; margin-right: 1em; }
+                66% { width: 1em; margin-right: .5em; }
+                100% { width: 1.5em; margin-right: 0;}
+            }
+            .ani_dot {
+                animation: dot 3s infinite step-start;
+            }
         </style>
     </head>
     <body>
@@ -102,6 +131,16 @@
             //default fill block point display block
             var FILL_BLOCK = DISPLAY_BLOCK;
 
+            function display_loading_icon(){
+                //swap fill block point to swap block
+                FILL_BLOCK = SWAP_BLOCK;
+                $(DISPLAY_BLOCK).fadeOut(400, function(){
+                    $(DISPLAY_BLOCK).html('<h1>Waiting <span class="ani_dot">...</span></h1>');
+                    $(DISPLAY_BLOCK).fadeIn(800);
+                    $('body,html').animate({'scrollTop':$(window).scrollTop()+400},600);
+                });
+            }
+
             function checkout_content_use_html(cache){
                 //animating time use swap space
                 FILL_BLOCK = SWAP_BLOCK;
@@ -117,7 +156,7 @@
                     $(DISPLAY_BLOCK).html('');
 
                     //copy swap space's inner html data to display space
-                    $(FILL_BLOCK).append($(SWAP_BLOCK).html());
+                    $(FILL_BLOCK).html($(SWAP_BLOCK).html());
                     //clear swap space
                     $(SWAP_BLOCK).html('');
 
@@ -201,7 +240,7 @@
             //fill cache stroke
             (function(stroke){
                 $.ajaxSettings.async = false;   //close async switch
-                $.getJSON("page_fund/db_need_cache.json", function(result){
+                $.getJSON("page_fund/db_need_cache.json?"+Math.random(), function(result){
                     for(property in result){
                         switch(result[property]["type"]){
                             case "html":
@@ -289,7 +328,7 @@
                             (function(self){
                                 //async request master json data what used room name - class name map.
                                 $.ajaxSettings.async = false;   //close async switch
-                                $.getJSON("page_fund/db_room_class_map.json", function(result){
+                                $.getJSON("page_fund/db_room_class_map.json?"+Math.random(), function(result){
                                     self.room_class_map = result;
                                 });
                                 $.ajaxSettings.async = true;    //open async switch
@@ -406,7 +445,7 @@
             (function(nav_context){
 
                 $.ajaxSettings.async = false;   //close async switch
-                $.getJSON("page_fund/db_nav_list.json",function(result){
+                $.getJSON("page_fund/db_nav_list.json?"+Math.random(),function(result){
                     $.each(result.nav_list, function(key, value){
                         nav_context.append("<br /><a class='nava' room='" + value.room + "' page='" + value.page + "'>" + value.innerText + " <small>" + value.innerPostscript + "</small></a>")
                     });
@@ -416,6 +455,8 @@
 
             //rewrite a click event
             $('.navbar a').click(function(){
+                //display waiting page
+                display_loading_icon();
                 //change url
                 window.location.href = '#room='+$(this).attr('room')+'&page='+$(this).attr('page');
                 //update address information by url

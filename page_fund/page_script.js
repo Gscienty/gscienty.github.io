@@ -53,13 +53,22 @@ function journal_room(){
     //current theme
     this.theme = "default";
 
+    //defense double click
+    this.ban_flag = false;
+
     //has rendered journal's count
     this.rendered_count = 0;
 
     //render minimum distance
     var RERENDER_MINIMUM_SIZE = 1;
     //render block
-    var RENDER_BLOCK = '.journal-list'
+    var RENDER_BLOCK = '.journal-list';
+    //render findeder
+    var RENDER_FINDEDER = '.journal-findeder';
+
+    this.get_render_block = function(){ return RENDER_BLOCK; }
+
+    this.get_render_findeder = function(){ return RENDER_FINDEDER; }
 
     //===================================================================
     //all journal theme list indexs
@@ -93,16 +102,23 @@ function journal_room(){
         //append to journal list page
         $(RENDER_BLOCK).append(page_inner_html);
 
-        //register .journal-item click event
-        $(".journal-item").click(function(){
-            //change url
-            window.location.href = "#room=journal&page=journal&index="+$(this).attr("journal");
-
-            //update address information by url
-            route.update_address_info();
-            //container apdate route change.
-            container_adapt();
-        });
+        var self = this;
+        setTimeout(function(){
+            //register .journal-item click event
+            $(".journal-item").click(function(){
+                if(self.ban_flag) return;
+                //display waiting page
+                display_loading_icon();
+                //close allow click
+                self.ban_flag = true;
+                //change url
+                window.location.href = "#room=journal&page=journal&index="+$(this).attr("journal");
+                //update address information by url
+                route.update_address_info();
+                //container apdate route change.
+                container_adapt();
+            });
+        },500);
     }
 
     //on scrolling event
@@ -114,9 +130,16 @@ function journal_room(){
     }
 
     //construct content that render markdown to content model and return content
-    this.render_content = function(content){
+    this.render_content = function(index){
+
+        //get journal display model
         var model = cache_strock.get_data("journal-display-model");
-        model = model.replace(this.replace_flag_set["flag-start"] + this.replace_flag_set["flag-content"] + this.replace_flag_set["flag-end"], content);
+
+        //loading journal content
+        var content = this.load_journal(index);
+
+        //replace master position
+        model = model.replace(this.replace_flag_set["flag-content"], content);
 
         checkout_content_use_html(model);
     }
@@ -158,8 +181,12 @@ journal_room.prototype.extend({
                     this.theme = parameters["theme"];
                 }
 
+                //let old don't render
+                $(this.get_render_findeder()).removeClass(this.get_render_block().replace('.',''));
+
                 //render journal model list by theme
                 checkout_content_use_html(cache_strock.get_data("journal-list-model"));
+
 
                 //render list page model
                 this.render_list_model(5);
@@ -173,7 +200,7 @@ journal_room.prototype.extend({
                 break;
             case "journal":
                 //render markdown to model used by journal identity
-                this.render_content(this.load_journal(parameters["index"]));
+                this.render_content(parameters["index"]);
 
                 break;
             default:

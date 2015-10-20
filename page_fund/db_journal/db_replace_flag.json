@@ -1,7 +1,3 @@
 {
-    "flag-start" : "<%",
-    "flag-end" : "%>",
-    "flag-title" : "title",
-    "flag-content" : "content"
-
+    "flag-content" : "<%content%>"
 }
