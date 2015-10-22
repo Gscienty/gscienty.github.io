@@ -193,20 +193,22 @@ journal_room.prototype.extend({
                         checkout_content_use_html(result);
                         self.render_list_model(5);
 
-                        $(".journal-item").click(function(){
-                            //change url
-                            window.location.href = "#room=journal&page=journal&index="+$(this).attr("journal");
-                            //update address information by url
-                            route.update_address_info();
-                            //container apdate route change.
-                            container_adapt();
-                        });
-
-
                         //register event listener which on scrolling
                         window.onscroll = function(e){
                             self.on_scrolling(e);
                         };
+
+                        //register .journal-item click event
+                        setTimeout(function(){
+                            $(".journal-item").click(function(){
+                                //change url
+                                window.location.href = "#room=journal&page=journal&index="+$(this).attr("journal");
+                                //update address information by url
+                                route.update_address_info();
+                                //container apdate route change.
+                                container_adapt();
+                            });
+                        },1000);
                     });
                 });
                 break;
