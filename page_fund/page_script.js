@@ -140,27 +140,32 @@ function journal_room(){
         //get journal display model
         cache_strock.get_data("journal-display-model", function(model){
             //loading journal content
-            var content = self.load_journal(index);
+            self.load_journal(index).complete_method(function(content){
+                //replace master position
+                model = model.replace(self.replace_flag_set["flag-content"], content);
 
-            //replace master position
-            model = model.replace(self.replace_flag_set["flag-content"], content);
+                checkout_content_use_html(model);
+            });
 
-            checkout_content_use_html(model);
         });
     }
 
     //load markdown content
     this.load_journal = function(index){
-        var result = "";
+        var execute_method = function(result){};
         $.ajax({
             url : 'docs/'+index+'.md',
-            async : false,
+            async : true,
             cache : false,
             complete : function(data){
-                result = data.responseText;
+                execute_method(markdown.toHTML(data.responseText));
             }
         });
-        return markdown.toHTML(result);
+        return {
+            complete_method : function(method){
+                execute_method = method;
+            }
+        };
     }
 
 }

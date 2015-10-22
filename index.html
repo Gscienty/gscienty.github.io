@@ -137,8 +137,6 @@
                 $(DISPLAY_BLOCK).fadeOut(400, function(){
                     $(DISPLAY_BLOCK).html('<h1>Waiting <span class="ani_dot">...</span></h1>');
                     $(DISPLAY_BLOCK).fadeIn(800);
-                    //need do it
-                    $('body,html').animate({'scrollTop':$(window).scrollTop()+400},600);
                 });
             }
 
@@ -163,7 +161,6 @@
 
                     //show the display block (animate)
                     $(DISPLAY_BLOCK).fadeIn(800);
-                    $('body,html').animate({'scrollTop':$(window).scrollTop()+400},600);
                 });
             }
 
