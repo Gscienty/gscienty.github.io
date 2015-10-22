@@ -137,6 +137,7 @@
                 $(DISPLAY_BLOCK).fadeOut(400, function(){
                     $(DISPLAY_BLOCK).html('<h1>Waiting <span class="ani_dot">...</span></h1>');
                     $(DISPLAY_BLOCK).fadeIn(800);
+                    //need do it
                     $('body,html').animate({'scrollTop':$(window).scrollTop()+400},600);
                 });
             }
@@ -200,37 +201,35 @@
                      }
 
                      //get cache (lazy strategy)
-                     this.get_data = function(key){
+                     this.get_data = function(key, execute_method){
                          if(stroke[key] != undefined){
                              if(stroke[key]["cached"]){
-                                 return stroke[key]["value"];
+                                 execute_method(stroke[key]["value"]);
                              }
                              else{
                                  switch(stroke[key]["type"]){
                                  case "html":
                                      $.ajax({
                                          url : stroke[key]["address"],
-                                         async : false,
+                                         async : true,
                                          cache : false,
                                          complete : function(data){
                                              stroke[key]["value"] = data.responseText;
+                                             execute_method(stroke[key]["value"]);
                                          }
                                      });
                                      break;
                                  case "json":
-                                     $.ajaxSettings.async = false;   //close async switch
                                      $.getJSON(stroke[key]["address"]+'?'+Math.random(), null, function(result){
                                          stroke[key]["value"] = result;
+                                         execute_method(stroke[key]["value"]);
                                      })
-                                     $.ajaxSettings.async = true;   //open async switch
                                      break;
                                  }
-
-                                 return stroke[key]["value"];
                              }
                          }
                          else{
-                             return null;
+                             execute_method(null);
                          }
                      }
                 });
@@ -313,6 +312,9 @@
 
                     //initialize method
                     this.init = function(){
+                        //get json response after method
+                        var execute_method = function(){};
+
                         //update router message(address infomation)
                         this.update_address_info();
                         //get room parameter - class map
@@ -327,13 +329,18 @@
                         else{
                             (function(self){
                                 //async request master json data what used room name - class name map.
-                                $.ajaxSettings.async = false;   //close async switch
                                 $.getJSON("page_fund/db_room_class_map.json?"+Math.random(), function(result){
                                     self.room_class_map = result;
+                                    execute_method();
                                 });
-                                $.ajaxSettings.async = true;    //open async switch
                             })(this);
                         }
+
+                        return {
+                            complete_method : function(method){
+                                execute_method = method;
+                            }
+                        };
                     };
 
                     //finding page method
@@ -384,85 +391,88 @@
             })(this);
 
             //initialize router
-            route.init();
+            route.init().complete_method(function(){//adapt update route method render page by container
+                (function(root, route){
+                    //page component
+                    var page_container = (function(root){
+                        root.container = function(){
+                            this.component_info = {};
+                            this.component = null;
 
-            //adapt update route method render page by container
-            (function(root, route){
-                //page component
-                var page_container = (function(root){
-                    root.container = function(){
-                        this.component_info = {};
-                        this.component = null;
+                            //update container information and get it
+                            this.update_container = function(component, info){
+                                //execute punish method for old page.
+                                if(this.component != null){
+                                    this.component.punish();
+                                }
+                                //set container and container information
+                                this.component_info = info;
+                                this.component = component;
 
-                        //update container information and get it
-                        this.update_container = function(component, info){
-                            //execute punish method for old page.
-                            if(this.component != null){
-                                this.component.punish();
-                            }
-                            //set container and container information
-                            this.component_info = info;
-                            this.component = component;
+                                //initialize this container
+                                this.component.initialize();
+                            };
 
-                            //initialize this container
-                            this.component.initialize();
-                        };
-
-                        this.execute = function(){
-                            if(this.component_info.need_parameters){
-                                (this.component[this.component_info.execute_method])(this.component_info.parameters);
-                            }
-                            else{
-                                (this.component[this.component_info.execute_method])();
+                            this.execute = function(){
+                                if(this.component_info.need_parameters){
+                                    (this.component[this.component_info.execute_method])(this.component_info.parameters);
+                                }
+                                else{
+                                    (this.component[this.component_info.execute_method])();
+                                }
                             }
                         }
-                    }
 
-                    return new root.container();
-                })(root);
+                        return new root.container();
+                    })(root);
 
-                root.container_adapt = function(){
-                    //temp var to cache route information(class name and main execute method)
-                    var cache_routing_info = route.routing();
-                    //temp var to cache address parameters
-                    cache_routing_info.parameters = route.get_parameters();
-                    try{
-                        page_container.update_container(new this[cache_routing_info.class_name], cache_routing_info);
-                        page_container.execute();
-                    }
-                    catch(e){
-                        console.log(e);
-                        route.transfrom_500();
-                        root.container_adapt();
-                    }
-                };
+                    root.container_adapt = function(){
+                        //temp var to cache route information(class name and main execute method)
+                        var cache_routing_info = route.routing();
+                        //temp var to cache address parameters
+                        cache_routing_info.parameters = route.get_parameters();
+                        try{
+                            page_container.update_container(new this[cache_routing_info.class_name], cache_routing_info);
+                            page_container.execute();
+                        }
+                        catch(e){
+                            console.log(e);
+                            route.transfrom_500();
+                            root.container_adapt();
+                        }
+                    };
 
-                root.container_adapt();
-            })(this, route);
-
+                    root.container_adapt();
+                })(window, route);
+            });
 
             //load nav data
             (function(nav_context){
-
-                $.ajaxSettings.async = false;   //close async switch
+                var execute_method = function(){};
                 $.getJSON("page_fund/db_nav_list.json?"+Math.random(),function(result){
                     $.each(result.nav_list, function(key, value){
                         nav_context.append("<br /><a class='nava' room='" + value.room + "' page='" + value.page + "'>" + value.innerText + " <small>" + value.innerPostscript + "</small></a>")
                     });
+                    //execute complete event
+                    execute_method();
                 });
-                $.ajaxSettings.async = true;    //open async switch
-            })($(".navbar .container"));
-
-            //rewrite a click event
-            $('.navbar a').click(function(){
-                //display waiting page
-                display_loading_icon();
-                //change url
-                window.location.href = '#room='+$(this).attr('room')+'&page='+$(this).attr('page');
-                //update address information by url
-                route.update_address_info();
-                //container apdate route change.
-                container_adapt();
+                return {
+                    complete_method : function(method){
+                        execute_method = method;
+                    }
+                }
+            })($(".navbar .container")).complete_method(function(){
+                //rewrite nav 'a' click event
+                $('.navbar a').click(function(){
+                    //display waiting page
+                    display_loading_icon();
+                    //change url
+                    window.location.href = '#room='+$(this).attr('room')+'&page='+$(this).attr('page');
+                    //update address information by url
+                    route.update_address_info();
+                    //container apdate route change.
+                    container_adapt();
+                });
             });
 
         </script>

@@ -3,6 +3,7 @@ function base_page(){
 base_page.prototype = {
     //initialize method
     initialize : function(){
+        display_loading_icon();
         this.on_init();
     },
     punish : function(){
@@ -35,10 +36,14 @@ method_room.prototype.extend({
     routing : function(parameters){
         switch(parameters.page){
             case '404':
-                checkout_content_use_html(cache_strock.get_data("404"));
+                cache_strock.get_data("404", function(result){
+                    checkout_content_use_html(result);
+                });
                 break;
             case '500':
-                checkout_content_use_html(cache_strock.get_data("500"));
+                cache_strock.get_data("500", function(result){
+                    checkout_content_use_html(result);
+                })
                 break;
         }
     }
@@ -55,6 +60,8 @@ function journal_room(){
 
     //defense double click
     this.ban_flag = false;
+    //init list flag
+    this.init_list_flag = false;
 
     //has rendered journal's count
     this.rendered_count = 0;
@@ -107,8 +114,6 @@ function journal_room(){
             //register .journal-item click event
             $(".journal-item").click(function(){
                 if(self.ban_flag) return;
-                //display waiting page
-                display_loading_icon();
                 //close allow click
                 self.ban_flag = true;
                 //change url
@@ -131,17 +136,17 @@ function journal_room(){
 
     //construct content that render markdown to content model and return content
     this.render_content = function(index){
-
+        var self = this;
         //get journal display model
-        var model = cache_strock.get_data("journal-display-model");
+        cache_strock.get_data("journal-display-model", function(model){
+            //loading journal content
+            var content = self.load_journal(index);
 
-        //loading journal content
-        var content = this.load_journal(index);
+            //replace master position
+            model = model.replace(self.replace_flag_set["flag-content"], content);
 
-        //replace master position
-        model = model.replace(this.replace_flag_set["flag-content"], content);
-
-        checkout_content_use_html(model);
+            checkout_content_use_html(model);
+        });
     }
 
     //load markdown content
@@ -162,18 +167,13 @@ function journal_room(){
 journal_room.prototype = new base_page();
 journal_room.prototype.extend({
     on_init : function(){
-        //load journal theme list model
-        this.journal_theme_indexs = cache_strock.get_data("journal-theme");
-
-        //load content replace flags key-value pairs
-        this.replace_flag_set = cache_strock.get_data("replace-flag");
-
     },
     on_finish : function(){
         //cancel event listener which on scrolling
         window.onscroll = null;
     },
     routing : function(parameters){
+        var self = this;
         switch(parameters.page){
             case "list":
                 //set default value
@@ -185,27 +185,33 @@ journal_room.prototype.extend({
                 $(this.get_render_findeder()).removeClass(this.get_render_block().replace('.',''));
 
                 //render journal model list by theme
-                checkout_content_use_html(cache_strock.get_data("journal-list-model"));
 
+                //load journal theme list model
+                cache_strock.get_data("journal-theme", function(result){
+                    self.journal_theme_indexs = result;
 
-                //render list page model
-                this.render_list_model(5);
-
-
-                //register event listener which on scrolling
-                var self = this;
-                window.onscroll = function(e){
-                    self.on_scrolling(e);
-                };
+                    cache_strock.get_data("journal-list-model", function(result){
+                        checkout_content_use_html(result);
+                        self.render_list_model(5);
+                        //register event listener which on scrolling
+                        window.onscroll = function(e){
+                            self.on_scrolling(e);
+                        };
+                    });
+                });
                 break;
             case "journal":
-                //render markdown to model used by journal identity
-                this.render_content(parameters["index"]);
+                //load content replace flags key-value pairs
+                cache_strock.get_data("replace-flag", function(result){
+                    self.replace_flag_set = result;
+                    //render markdown to model used by journal identity
+                    self.render_content(parameters["index"]);
+                });
 
                 break;
             default:
                 //not found
-                checkout_content('page_fund/html/404.html');
+                route.transfrom_404();
                 break;
         }
     }
