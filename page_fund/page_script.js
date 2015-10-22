@@ -58,8 +58,6 @@ function journal_room(){
     //current theme
     this.theme = "default";
 
-    //defense double click
-    this.ban_flag = false;
     //init list flag
     this.init_list_flag = false;
 
@@ -110,20 +108,16 @@ function journal_room(){
         $(RENDER_BLOCK).append(page_inner_html);
 
         var self = this;
-        setTimeout(function(){
-            //register .journal-item click event
-            $(".journal-item").click(function(){
-                if(self.ban_flag) return;
-                //close allow click
-                self.ban_flag = true;
-                //change url
-                window.location.href = "#room=journal&page=journal&index="+$(this).attr("journal");
-                //update address information by url
-                route.update_address_info();
-                //container apdate route change.
-                container_adapt();
-            });
-        },500);
+
+        //register .journal-item click event
+        $(".journal-item").click(function(){
+            //change url
+            window.location.href = "#room=journal&page=journal&index="+$(this).attr("journal");
+            //update address information by url
+            route.update_address_info();
+            //container apdate route change.
+            container_adapt();
+        });
     }
 
     //on scrolling event
