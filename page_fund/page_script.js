@@ -107,17 +107,17 @@ function journal_room(){
         //append to journal list page
         $(RENDER_BLOCK).append(page_inner_html);
 
-        var self = this;
-
         //register .journal-item click event
-        $(".journal-item").click(function(){
-            //change url
-            window.location.href = "#room=journal&page=journal&index="+$(this).attr("journal");
-            //update address information by url
-            route.update_address_info();
-            //container apdate route change.
-            container_adapt();
-        });
+        setTimeout(function(){
+            $(".journal-item").click(function(){
+                //change url
+                window.location.href = "#room=journal&page=journal&index="+$(this).attr("journal");
+                //update address information by url
+                route.update_address_info();
+                //container apdate route change.
+                container_adapt();
+            });
+        },200);
     }
 
     //on scrolling event
