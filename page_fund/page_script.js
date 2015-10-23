@@ -61,6 +61,9 @@ function journal_room(){
     //init list flag
     this.init_list_flag = false;
 
+    //ban reload journal
+    this.is_clicked = false;
+
     //has rendered journal's count
     this.rendered_count = 0;
 
@@ -107,9 +110,12 @@ function journal_room(){
         //append to journal list page
         $(RENDER_BLOCK).append(page_inner_html);
 
+        var self = this;
         //register .journal-item click event
         setTimeout(function(){
             $(".journal-item").click(function(){
+                if(self.is_clicked) return;
+                self.is_clicked = true;
                 //change url
                 window.location.href = "#room=journal&page=journal&index="+$(this).attr("journal");
                 //update address information by url
@@ -166,6 +172,7 @@ function journal_room(){
 journal_room.prototype = new base_page();
 journal_room.prototype.extend({
     on_init : function(){
+        this.is_clicked = false;
     },
     on_finish : function(){
         //cancel event listener which on scrolling
@@ -201,6 +208,9 @@ journal_room.prototype.extend({
                         //register .journal-item click event
                         setTimeout(function(){
                             $(".journal-item").click(function(){
+                                //ban double click
+                                if(self.is_clicked) return;
+                                self.is_clicked = true;
                                 //change url
                                 window.location.href = "#room=journal&page=journal&index="+$(this).attr("journal");
                                 //update address information by url
