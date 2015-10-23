@@ -113,9 +113,8 @@ function journal_room(){
         var self = this;
         //register .journal-item click event
         setTimeout(function(){
+            $(".journal-item").unbind();
             $(".journal-item").click(function(){
-                if(self.is_clicked) return;
-                self.is_clicked = true;
                 //change url
                 window.location.href = "#room=journal&page=journal&index="+$(this).attr("journal");
                 //update address information by url
@@ -207,10 +206,8 @@ journal_room.prototype.extend({
 
                         //register .journal-item click event
                         setTimeout(function(){
+                            $(".journal-item").unbind();
                             $(".journal-item").click(function(){
-                                //ban double click
-                                if(self.is_clicked) return;
-                                self.is_clicked = true;
                                 //change url
                                 window.location.href = "#room=journal&page=journal&index="+$(this).attr("journal");
                                 //update address information by url
