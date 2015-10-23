@@ -206,6 +206,7 @@ journal_room.prototype.extend({
 
                         //register .journal-item click event
                         setTimeout(function(){
+                            //delete origin event listener
                             $(".journal-item").unbind();
                             $(".journal-item").click(function(){
                                 //change url
