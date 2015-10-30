@@ -1,6 +1,6 @@
 {
     "default" : [
         {"index": "1", "title" : "HELO", "innerText" : "初版blog已经完成辣.又一次被爽到了"},
-        {"index": "mysql-regex", "title" : "Regex(正则表达式)", "innerText" : "reading code note"}
+        {"index": "mysql-regex", "title" : "Mysql 正则表达式", "innerText" : "reading code note"}
     ]
 }

@@ -1,36 +1,36 @@
-Regex(正则表达式)
+Mysql Regex 正则表达式
 =======================
 
-1. [sqlit.c](https://github.com/mysql/mysql-server/blob/5.7/regex/split.c "sqlit.c")提供字符串切割函数
+[reginit.c](https://github.com/mysql/mysql-server/blob/5.7/regex/reginit.c "reginit.c") 用于正则表达式初始化
 
-``
-int split(char* string, char* fields[], int nfields, char* sep);
-``
+```
+void my_regex_init(const CHARSET_INFO* cs, my_regex_stack_check_t func);
+```  
+用于初始化  
+这个函数里，将初始化``my_regex_enough_mem_in_stack``函数，用于检测正则表达式栈是否已满，
+并通过for循环初始化编码字符进行分类存入相应的类型集合``cclasses``中。
 
-函数给出需要提供待切割字符串(string)，切割字符串后子字符串存储集合(fields)，集合容量
-(nfields)和切割点(sep)。
+```
+void my_regex_end()
+```  
+用于销毁  
+包括销毁编码字符分类集合cclasses以及设置``my_regex_enough_mem_in_stack``函数指针为空。
 
-函数开始时的前提条件的处理：
+[regcomp.c](https://github.com/mysql/mysql-server/blob/5.7/regex/regcomp.c "regcomp.c") 用于将正则表达式的模式串转化为匹配指令
 
->sep为空时（切割点为空），原因是由于shell读入时空格符或跳表符不会被理解为字符串，所以刚进入此函数时sep值为\0。
-因此需要铺垫好前提条件：将sep设置为"\032\t"。  
-并将清除尾部空格标志置1（这里使用int作为布尔型）  
-这里发现指针p（初始化时指向string首地址）在这里有while循环用于指定到待切割点位置。但未检测字符串是否结束。  
-必要条件（sep不为空）满足之后，将sep的第一个字符以及第二个字符分别记录。  
-若此时p指向字符串结尾，则返回0（空字符串不予处理， 其意义为已切割为0个子串）。  
+```
+int my_regcomp(my_regex_t* preg, const char* pattern, int cflags, const CHARSET_INFO* charset);
+```  
+用于“编译”模式串
+“编译”成功后返回0 否则返回相应错误代码。  
+在函数体内，构造相应的模型：解析模型和re_guts（程序里不告诉我，原文注释是“none of your business :-)” ）并应用这两个模型。  
+流水线如下：分类字符类别->压缩->findmust(感觉是找最长子序列)
 
-函数执行体部分：
+[regerror.c](https://github.com/mysql/mysql-server/blob/5.7/regex/regerror.c "regerror.c") 用于转义为可读的错误信息
 
->**若切割点为单个字符时（通过记录的第二个字符为\0来判断。）**  
-将剩余部分的字符串的首地址放入fields的一个位置，从该地址向后查找到与sep相同字符的位置（切割点），将该点赋值为\0。  
-重复上述工作，直至遍历字符串结束。返回值意义为已切割为几个子字符串。  
-其本质是将一个完整字符串的规定一个字符替换为\0，并记录其后位置。  
-若fields不足以容纳所有子字符串，那么仅仅返回可以切割为多少个子字符串
+[regfree.c](https://github.com/mysql/mysql-server/blob/5.7/regex/regfree.c "regfree.c") 用于销毁正则匹配器
 
->**若切割点包含两个字符（通过seq的第三个字符为\0来判断。）**    
-同上执行，区别是多判断一个字符  
-并根据trimtrail清除尾部的空格和跳表符（根据变量命名感觉作者并不单纯希望仅仅做清除空格和跳表符）以及修正切割的子字符串个数。
+[regexec.c](https://github.com/mysql/mysql-server/blob/5.7/regex/regexec.c "regexec.c") 用于执行正则匹配
 
->**若切割垫包含多个字符**  
-逐个检查字符串内是否有满足切割的点，若有则进行如单字符情况下的切割。  
-而后被切割字符串指针指向一个不满足切割的点（这里也是一次“优化”，省略连续的切割点，避免出现空字符串占用fields空间。
+``int my_regexec(const my_regex_t* preg, const char* str, size_t nmatch, my_regmatch_t pmatch[], int eflags)``  
+用于执行匹配，如果匹配成功则返回成功
