@@ -112,6 +112,8 @@ function journal_room(){
 
         var self = this;
         //register .journal-item click event
+
+        console.log('journal-item click event adding inner');
         setTimeout(function(){
             $(".journal-item").unbind();
             $(".journal-item").click(function(){
@@ -121,6 +123,7 @@ function journal_room(){
                 route.update_address_info();
                 //container apdate route change.
                 container_adapt();
+                console.log('journal-item click event added inner');
             });
         },1000);
     }
@@ -204,6 +207,7 @@ journal_room.prototype.extend({
                             self.on_scrolling(e);
                         };
 
+                        console.log('journal-item click event adding outer');
                         //register .journal-item click event
                         setTimeout(function(){
                             //delete origin event listener
@@ -215,7 +219,7 @@ journal_room.prototype.extend({
                                 route.update_address_info();
                                 //container apdate route change.
                                 container_adapt();
-                                console.log('journal-item click event added');
+                                console.log('journal-item click event added outer');
                             });
                         },1000);
                     });
