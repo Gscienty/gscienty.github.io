@@ -153,7 +153,7 @@
                 });
             }
 
-            function checkout_content_use_html(cache){
+            function checkout_content_use_html(cache, rendered_method){
                 //animating time use swap space
                 FILL_BLOCK = SWAP_BLOCK;
 
@@ -173,7 +173,7 @@
                     $(SWAP_BLOCK).html('');
 
                     //show the display block (animate)
-                    $(DISPLAY_BLOCK).fadeIn(800);
+                    $(DISPLAY_BLOCK).fadeIn(800, rendered_method);
                 });
             }
 

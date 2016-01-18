@@ -82,8 +82,7 @@ function journal_room(){
     //all journal theme list indexs
     this.journal_theme_indexs = {};
 
-    //render list page
-    this.render_list_model = function(size){
+    this.build_list_model = function(size){
         //cache inner html
         var page_inner_html = "";
         for(render_index = 0; render_index < size; render_index++){
@@ -107,36 +106,13 @@ function journal_room(){
         //add rendered item count
         this.rendered_count = this.rendered_count + size;
 
+        return page_inner_html;
+    };
+
+    //render list page
+    this.render_list_model = function(size){
         //append to journal list page
-        $(RENDER_BLOCK).append(page_inner_html);
-
-        var self = this;
-        //register .journal-item click event
-        console.log('journal-item base event adding');
-        $(".journal-item").unbind();
-        $(".journal-item").click(function(){
-            //change url
-            window.location.href = "#room=journal&page=journal&index="+$(this).attr("journal");
-            //update address information by url
-            route.update_address_info();
-            //container apdate route change.
-            container_adapt();
-        });
-        console.log('journal-item base event added');
-
-        console.log('journal-item click event adding inner');
-        setTimeout(function(){
-            $(".journal-item").unbind();
-            $(".journal-item").click(function(){
-                //change url
-                window.location.href = "#room=journal&page=journal&index="+$(this).attr("journal");
-                //update address information by url
-                route.update_address_info();
-                //container apdate route change.
-                container_adapt();
-            });
-            console.log('journal-item click event added inner');
-        },1000);
+        $(RENDER_BLOCK).append(this.build_list_model(size));
     }
 
     //on scrolling event
@@ -203,36 +179,36 @@ journal_room.prototype.extend({
                 //let old don't render
                 $(this.get_render_findeder()).removeClass(this.get_render_block().replace('.',''));
 
-                //render journal model list by theme
-
                 //load journal theme list model
                 cache_strock.get_data("journal-theme", function(result){
                     self.journal_theme_indexs = result;
+                    //get journal list model
+                    cache_strock.get_data("journal-list-model", function(model_result){
+                        //get replace flag set
+                        cache_strock.get_data("replace-flag", function(flag_result){
+                            //set replace flag set
+                            self.replace_flag_set = flag_result;
+                            //replace
+                            model_result = model_result.replace(self.replace_flag_set["flag-list"], self.build_list_model(5));
 
-                    cache_strock.get_data("journal-list-model", function(result){
-                        checkout_content_use_html(result);
-                        self.render_list_model(5);
-
-                        //register event listener which on scrolling
-                        window.onscroll = function(e){
-                            self.on_scrolling(e);
-                        };
-
-                        console.log('journal-item click event adding outer');
-                        //register .journal-item click event
-                        setTimeout(function(){
-                            //delete origin event listener
-                            $(".journal-item").unbind();
-                            $(".journal-item").click(function(){
-                                //change url
-                                window.location.href = "#room=journal&page=journal&index="+$(this).attr("journal");
-                                //update address information by url
-                                route.update_address_info();
-                                //container apdate route change.
-                                container_adapt();
-                                console.log('journal-item click event added outer');
+                            //render page and add click event
+                            checkout_content_use_html(model_result, function(){
+                                $(".journal-item").unbind();
+                                $(".journal-item").click(function(){
+                                    //change url
+                                    window.location.href = "#room=journal&page=journal&index="+$(this).attr("journal");
+                                    //update address information by url
+                                    route.update_address_info();
+                                    //container apdate route change.
+                                    container_adapt();
+                                });
                             });
-                        },1000);
+
+                            //register event listener which on scrolling
+                            window.onscroll = function(e){
+                                self.on_scrolling(e);
+                            };
+                        });
                     });
                 });
                 break;
