@@ -215,6 +215,7 @@ journal_room.prototype.extend({
                                 route.update_address_info();
                                 //container apdate route change.
                                 container_adapt();
+                                console.log('journal-item click event added');
                             });
                         },1000);
                     });
