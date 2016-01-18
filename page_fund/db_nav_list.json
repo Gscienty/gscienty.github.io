@@ -1,4 +1,3 @@
 {"nav_list" : [
-    {"innerText" : "主页", "innerPostscript" : "Home", "room" : "face", "page" : "default"},
-    {"innerText" : "日志", "innerPostscript" : "Journal", "room" : "journal", "page" : "list"}
+    {"innerText" : "主页", "innerPostscript" : "Home", "room" : "face", "page" : "default"}
 ]}
