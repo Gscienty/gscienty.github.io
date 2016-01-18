@@ -112,6 +112,17 @@ function journal_room(){
 
         var self = this;
         //register .journal-item click event
+        console.log('journal-item base event adding');
+        $(".journal-item").unbind();
+        $(".journal-item").click(function(){
+            //change url
+            window.location.href = "#room=journal&page=journal&index="+$(this).attr("journal");
+            //update address information by url
+            route.update_address_info();
+            //container apdate route change.
+            container_adapt();
+        });
+        console.log('journal-item base event added');
 
         console.log('journal-item click event adding inner');
         setTimeout(function(){
@@ -123,8 +134,8 @@ function journal_room(){
                 route.update_address_info();
                 //container apdate route change.
                 container_adapt();
-                console.log('journal-item click event added inner');
             });
+            console.log('journal-item click event added inner');
         },1000);
     }
 
