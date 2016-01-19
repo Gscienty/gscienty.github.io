@@ -130,10 +130,15 @@ function journal_room(){
         cache_strock.get_data("journal-display-model", function(model){
             //loading journal content
             self.load_journal(index).complete_method(function(content){
-                //replace master position
-                model = model.replace(self.replace_flag_set["flag-content"], content);
+                if(content === ''){
+                    router.transfrom_404();
+                }
+                else{
+                    //replace master position
+                    model = model.replace(self.replace_flag_set["flag-content"], content);
 
-                checkout_content_use_html(model);
+                    checkout_content_use_html(model);
+                }
             });
 
         });
@@ -147,7 +152,12 @@ function journal_room(){
             async : true,
             cache : false,
             complete : function(data){
-                execute_method(markdown.toHTML(data.responseText));
+                try{
+                    execute_method(markdown.toHTML(data.responseText));
+                }
+                catch(e){
+                    execute_method('');
+                }
             }
         });
         return {
