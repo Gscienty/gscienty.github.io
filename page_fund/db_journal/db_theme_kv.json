@@ -2,5 +2,6 @@
     "default" : "未分类",
     "dotnet" : ".net",
     "data-struct" : "数据结构",
-    "database" : "数据库"
+    "database" : "数据库",
+    "net-management" : "网络信息管理课程整理"
 }
