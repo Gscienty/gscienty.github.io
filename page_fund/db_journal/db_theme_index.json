@@ -21,6 +21,7 @@
         {"index": "none", "title" : "基础理论： IP规划",
              "innerText" : "爱莫能助<br />包括子网划分、网络号、子网掩码、缺省网关"},
         {"index": "ospf-rip", "title" : "基础理论： OSPF - RIP", "innerText" : "两个路由协议"},
-        {"index": "nm-vpn", "title" : "基础理论： VPN技术", "innerText" : ""}
+        {"index": "nm-vpn", "title" : "基础理论： VPN技术", "innerText" : ""},
+        {"index": "nm-nat", "title" : "基础理论： NAT技术", "innerText" : ""}
     ]
 }
