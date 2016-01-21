@@ -26,6 +26,7 @@
         {"index": "nm-ipv6", "title" : "基础理论： IPv6", "innerText" : ""},
         {"index": "nm-basecmd", "title" : "基础理论： 基本操作命令", "innerText" : ""},
         {"index": "nm-tcp-about", "title" : "基础理论： TCP部分内容", "innerText" : ""},
-        {"index": "nm-switchbch", "title" : "设备", "innerText" : ""}
+        {"index": "nm-switchbch", "title" : "设备", "innerText" : ""},
+        {"index": "nm-sec", "title" : "安全性", "innerText" : ""}
     ]
 }
