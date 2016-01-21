@@ -120,6 +120,16 @@ function journal_room(){
         //check if window arrive bottom side
         if($(window).scrollTop() == $(document).height() - $(window).height()){
             this.render_list_model(5);
+
+            $(".journal-item").unbind();
+            $(".journal-item").click(function(){
+                //change url
+                window.location.href = "#room=journal&page=journal&index="+$(this).attr("journal");
+                //update address information by url
+                route.update_address_info();
+                //container apdate route change.
+                container_adapt();
+            });
         }
     }
 
