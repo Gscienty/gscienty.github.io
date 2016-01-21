@@ -5,6 +5,9 @@
     "dotnet" : [
         {"index": "dnvm-doc", "title": ".NET Version Manager", "innerText" : "简单记录dnvm的使用方法"}
     ],
+    "os" :[
+        {"index": "os-Introduction", "title": "Introduction", "innerText": ""}
+    ],
     "data-struct" : [
         {"index": "qu-yu-shu", "title": "区域树", "innerText": "多维点数据"}
     ],
@@ -17,6 +20,7 @@
         {"index": "TCP-IP-protocolstack", "title" : "基础理论： TCP/IP协议栈", "innerText" : ""},
         {"index": "none", "title" : "基础理论： IP规划",
              "innerText" : "爱莫能助<br />包括子网划分、网络号、子网掩码、缺省网关"},
-        {"index": "ospf-rip", "title" : "基础理论： OSPF - RIP", "innerText" : "两个路由协议"}
+        {"index": "ospf-rip", "title" : "基础理论： OSPF - RIP", "innerText" : "两个路由协议"},
+        {"index": "nm-vpn", "title" : "基础理论： VPN技术", "innerText" : ""}
     ]
 }
