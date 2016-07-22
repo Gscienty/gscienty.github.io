@@ -1,0 +1,37 @@
+<div style="position:fixed;height:100%;width:60px;background-color:#222;top:0;left:0">
+    <div style="text-align:center;margin-top:40px;font-size:24px;">
+        <a href='#/' style="width:">
+            <span class="glyphicon glyphicon-home" style="color:#ccc;padding-bottom:24px"></span>
+            <br />
+        </a>
+        <a href="#/blog-list:{{item.category}}:1" ng-repeat="item in blog_category">
+            <span class="glyphicon glyphicon-{{item.icon}}" style="color:#ccc;padding-bottom:24px"></span>
+            <br />
+        </a>
+    </div>
+</div>
+<div class="container" style="margin-top:40px;">
+    <div style="width:50px;height:50px;border:4px solid #000;border-radius:25px">
+        <div ng-click="go_back()" ng-mouseover="mouse_over_go_back='background:#000;'" ng-mouseleave="mouse_over_go_back=''" style="width:32px;height:32px;margin:5px;{{mouse_over_go_back}}border-radius:24px">&nbsp;</div>
+    </div>
+    <div class="row">
+        <div class="col-xs-8 col-xs-offset-2">
+            <b>Category - {{Category}}</b>
+            <div class="row" style="min-height:400px">
+                <div class="col-xs-10 col-xs-offset-1">
+                    <ul style="margin-top:40px" ng-repeat="item in articles">
+                        <li style="margin-top:10px"><a href="#/article:{{item.article_path}}">{{item.title}}<span style="float:right">{{item.submit_time}}</span></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-1">
+                    <span ng-click="category_go_page(-1)" ng-mouseover="preview_page_btn_color='#66f'" ng-mouseleave="preview_page_btn_color='#aaa'" class="badge" style="background:{{preview_page_btn_color}}">← preview page</span>
+                </div>
+                <div class="col-xs-1 col-xs-offset-10">
+                    <span ng-click="category_go_page(1)" ng-mouseover="next_page_btn_color='#66f'" ng-mouseleave="next_page_btn_color='#aaa'" class="badge" style="background:{{next_page_btn_color}}">next page →</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
