@@ -8,6 +8,11 @@ angular.module('blog').controller('blog-list-controller', function($window, $loc
     });
 
     var category = $routeParams['category'];
+    if(category == ':Default:'){
+        $scope.display_hello_flag = true;
+        return;
+    }
+    $scope.display_hello_flag = false;
     while(category.indexOf('-') != -1){
         category = category.replace('-', ' ');
     }

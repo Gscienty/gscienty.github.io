@@ -112,7 +112,7 @@ module.exports.enter = function(request, response){
             var result = '<table style="margin:auto"><tr><td style="border-bottom:1px solid #000;">Article Name</td><td style="border-bottom:1px solid #000;">Article Makedown Name</td><td style="border-bottom:1px solid #000">Submit Time</td><td style="border-bottom:1px solid #000">Operation</td></tr>';
             var length = data.length;
             for(var i = 0; i < length; i++){
-                result += '<tr><td>' + data[i].title + '</td><td>' + data[i].article_path + '</td><td>' + data[i].submit_time + '</td><td><a href="/manage/article-del?category='+uc+'&article='+ i +'">Delete it</td></tr>';
+                result += '<tr><td>' + data[i].title + '</td><td>' + data[i].article_path + '</td><td>' + data[i].submit_time + '</td><td><a href="/manage/article-del?category='+uc+'&article='+ i +'">Delete it</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/manage/article-write?md='+ data[i].article_path +'">Alter it</a></td></tr>';
             }
             result += '</table>';
             return result;
@@ -122,6 +122,10 @@ module.exports.enter = function(request, response){
     else if(url_entity.pathname == '/article-write'){
         var fs = require('fs');
         if(request.method == 'GET'){
+            var content = '';
+            if(url_entity.query != null){
+                content = fs.readFileSync('./contents/data/articles/' + url_entity.query.split('=')[1], 'utf-8');
+            }
             response.write('<meta charset="utf-8"/>\
             <p style="text-align:center;font-weight:900;margin-top:50px">Hello Bloger this is write article manage page ♪（＾∀＾●）ﾉ</p>\
             <p style="text-align:center"><a href="/manage/article">Go back</a></p><br />\
@@ -139,7 +143,10 @@ module.exports.enter = function(request, response){
                     })(data[i].category) + ' value="'+data[i].category+'">'+data[i].category+'</option>';
                 };
                 return result;
-            })() + '</select><dd><dt>Title</dt><dd><input name="title" style="width:400px" /></dd><dt>File Name</dt><dd><input name="path" style="width:400px" /></dd><dt>Content</dt><dd><textarea name="content" style="width:800px; height:600px"></textarea></dd></dl><input type="submit" value="add article" /></form>');
+            })() + '</select><dd><dt>Title</dt><dd><input name="title" style="width:400px" /></dd><dt>File Name</dt><dd><input name="path" style="width:400px" /></dd><dt>Content</dt><dd><textarea name="content" style="width:800px; height:600px">' + content +'</textarea></dd></dl><input type="hidden" name="change_md" value="' + (()=>{
+                if(url_entity.query == null) return '';
+                return url_entity.query.split('=')[1];
+            })() + '"><input type="submit" value="add article" /></form>');
             response.end();
         }
         else{
@@ -149,13 +156,18 @@ module.exports.enter = function(request, response){
             });
             request.addListener('end', () => {
                 pams = require('querystring').parse(post_data);
-                if(pams.category == ''){
+                if(pams.change_md != ''){
+                    fs.writeFileSync('./contents/data/articles/' + pams.change_md, pams.content);
+
+                    response.writeHead(302, {
+                        'Location' : '/manage/article'
+                    });
+                }
+                else if(pams.category == ''){
                     response.writeHead(200, {
                         'Content-Type' : 'text/html'
                     });
-                    response.write('<p style="text-align:center">Error! You not selected article\'s category. <a href="javascript:window.history.go(-1)">Click Here to go back</a></p>')
-                    response.end();
-                    return;
+                    response.write('<p style="text-align:center">Error! You not selected article\'s category. <a href="javascript:window.history.go(-1)">Click Here to go back</a></p>');
                 }
                 else{
                     var ar_data = eval(fs.readFileSync('./contents/data/' + pams.category + '-articles.json', 'utf-8'));
@@ -167,8 +179,8 @@ module.exports.enter = function(request, response){
                     response.writeHead(302, {
                         'Location' : '/manage/article?category='+ pams.category
                     });
-                    response.end();
                 }
+                response.end();
             });
         }
     }
