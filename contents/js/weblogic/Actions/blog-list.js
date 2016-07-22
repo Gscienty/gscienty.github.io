@@ -8,17 +8,17 @@ angular.module('blog').controller('blog-list-controller', function($window, $loc
     });
 
     var category = $routeParams['category'];
-    if(category == ':Default:'){
-        $scope.display_hello_flag = true;
-        return;
-    }
-    $scope.display_hello_flag = false;
     while(category.indexOf('-') != -1){
         category = category.replace('-', ' ');
     }
     while(category.indexOf(':') != -1){
         category = category.replace(':', '');
     }
+    if(category == 'Default'){
+        $scope.display_hello_flag = true;
+        return;
+    }
+    $scope.display_hello_flag = false;
     var current_page = $routeParams['page'];
     while(current_page.indexOf(':') != -1){
         current_page = current_page.replace(':', '');
