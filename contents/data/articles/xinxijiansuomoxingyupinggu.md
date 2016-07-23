@@ -24,12 +24,17 @@
 但是我们通过频度来进行衡量的话，会出现一个问题，即单词个数的分布不均，这样会影响检索结果的准确性。因此解决这个的办法通常有两个：一个是规范化标准化（即可计算频率），或者是添加另一个参数，如反向文档频率
 
 对于词汇j, 计算其反向文档频率的公式如下：  
-idf[j] = log(N / df[j])  
+![][1]
+
+[1]: http://chart.googleapis.com/chart?cht=tx&chl=\Large%20idf_j=\log%20\frac{N}{df_j}
+
 此处定义df[j]为文档出现词汇j的频度。于是我们可以发现，当词汇j仅仅存在于一个文档中时，idf[j]的值最大，为log(N)；当词汇j存在于每一个文档中时，idf[j] = 0。  
 换言之，idf值越高，其精确度也就越高。
 
 于是我们可以计算词汇j在文档i中的权值  
-w[i,j] = tf[i,j] * idf[j]
+![][3]
+
+[3]: http://chart.googleapis.com/chart?cht=tx&chl=\Large%20w_{i%20j}%20=%20tf_{i%20j}%20*idf_j
 
 我们可以通过词汇的权值来辨别出文档是否与之相关。而建立索引其中一个关键的目的是在于能够将文档区分开来。所以我们可以通过词汇的权值来建立起文档的索引。
 
@@ -39,7 +44,9 @@ w[i,j] = tf[i,j] * idf[j]
 
 我们定义词汇区分度值为dv[j] = Q - Q[j] 用于标记词汇j的区分度值。这里的Q是平均距离，Q[j]是参考标记词汇j之后的平均距离
 
-![](http://chart.googleapis.com/chart?cht=tx&chl=\Large Q=\frac{\sum_{i=1}^N \sum_{k=1 \\ i \neq k}^N sim[D_i]sim[D_k]}{N[N-1]} "")
+![][2]
+
+[2]: http://chart.googleapis.com/chart?cht=tx&chl=\Large%20Q=\frac{\sum_{i=1}^N%20\sum_{k=1%20\\%20i%20\neq%20k}^N%20sim(D_i)sim(D_k)}{N(N-1)}
 
 区分该词汇是否是一个好的索引主要通过dv[j]的大小来确定。如果dv[j]>0就表明词汇j是一个好的标识，如果dv[j]<0就表明词汇j是一个不好的标识。
 

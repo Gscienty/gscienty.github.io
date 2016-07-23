@@ -19,8 +19,8 @@
             <b>Category - {{Category}}</b>
             <div class="row" style="min-height:400px">
                 <div class="col-xs-10 col-xs-offset-1">
-                    <ul style="margin-top:40px" ng-repeat="item in articles">
-                        <li style="margin-top:10px"><a href="#/article:{{item.article_path}}">{{item.title}}<span style="float:right">{{item.submit_time}}</span></a></li>
+                    <ul style="margin-top:40px">
+                        <li style="margin-top:10px" ng-repeat="item in articles"><a href="#/article:{{item.article_path}}">{{item.title}}<span style="float:right">{{item.submit_time}}</span></a></li>
                     </ul>
                 </div>
             </div>
