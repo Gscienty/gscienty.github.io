@@ -17,8 +17,7 @@
 
 伪代码描述：
 
-
-    LEFT-ROTATE(T,x)  
+    LEFT-ROTATE(T, x)  
       y = x.right         #set y
       x.right = y.left    #turn y's left subtree into x's right subtree
       if y.lift != T.nil
@@ -28,7 +27,93 @@
         T.root = y
       elseif x == x.p.left
         x.p.left = y
-      else x.p.right == y
+      else
+        x.p.right == y
       y.left = x
       x.p = y
+
+             x                    y
+            / \                  / \
+           a   y      =>        x   c
+              / \              / \
+             b   c            a   b
+
+
+同样给出右旋的伪代码：
+
+    RIGHT-ROTATE(T, x)
+      y = x.left
+      x.left = y.right
+      if y.right != T.nil
+        y.right.p = x
+      y.p = x.p
+      if x.p ==T.nil
+        T.root = y
+      elseif x == x.p.left
+        x.p.left = y
+      else
+        x.p.right = y
+      y.right = x
+      x.p = y
+
+           x                   y
+          / \                 / \
+         y   a        =>     b   x
+        / \                     / \
+       b   c                   c   a
+
+##红黑树的插入
+对于有n个节点的红黑树来说，插入一个元素的时间复杂度为 O(lg n)。 在进行红黑树的插入时，我们首先以有序二叉查找树插入节点的方式插入该节点，并将该节点赋予红色（疑问，为什么是红色而不是黑色？）。 为了保持红黑书的性质，我们将执行一个辅助过程，将红黑树重新着色并且对于一些节点将进行旋转过程。我们将这个过程称之为RB-INSERT-FIXUP(T, z)
+
+以下是红黑树插入过程的伪代码描述：
+
+    RB-INSERT(T, z)
+      y = T.nil
+      x = T.root
+      while x != T.nil
+        y = x
+        if z.key < x.key
+          x = x.left
+        else
+          x = x.right
+      z.p = y
+      if y == T.nil
+        T.root = z
+      elseif z.key < y.key
+        y.left = z
+      else
+        y.right = z
+      z.left = T.nil
+      z.right = T.nil
+      z.color = RED
+      RB-INSERT-FIXUP(T, z)
+
+以下是红黑树插入结束后的辅助过程伪代码描述：
+
+    RB-INSERT-FIXUP(T, z)
+      while z.p.color == RED
+        if z.p == z.p.p.left
+          y = z.p.p.right
+          if y.color == RED       #case 1
+            z.p.color = BLACK
+            z.p.p.color = RED
+            z = z.p.p
+          else if z == z.p.right  #case 2
+              z = z.p
+              LEFT-ROTATE(T, z)
+            z.p.color = BLACK     #case 3
+            z.p.p.color = RED
+            RIGHT-ROTATE(T, z.p.p)
+        else
+          y = z.p.p.right
+          if y.color == RED
+            z.p.color = BLACK     #case 1
+            z.p.p.color = RED
+            z = z.p.p
+          else if z == z.p.left   #case 2
+              z = z.p
+              RIGHT-ROTATE(T, z)
+            z.p.color = BLACK     #case 3
+            z.p.p.color = RED
+            LEFT-ROTATE(T, z.p.p)
 
